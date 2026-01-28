@@ -12,3 +12,6 @@ export function drawOne<T>(deck: T[]) {
   const [card, ...rest] = deck;
   return { deck: rest, card };
 }
+
+export const generateRandomPlayer = () =>
+  Math.random() < 0.5 ? "PLAYER" : "ENEMY";

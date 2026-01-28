@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import type { CardId } from "../../components/Cards/types";
-import type { Player } from "../../utils/types/game";
 import { CoinToss } from "./coin";
 import "./game.scss";
 import { GameContext } from "./utils/context";
-import { drawOne, shuffle } from "./utils/functions";
+import { generateRandomPlayer, shuffle } from "./utils/functions";
+import { phases } from "./utils/phases";
 
 const starterDeck: CardId[] = [
   "FIRE_IMP",
@@ -18,68 +18,58 @@ const starterDeck: CardId[] = [
 
 export const GamePage = () => {
   /***** HOOKS *****/
-  const [activePlayer, setActivePlayer] = useState<Player>(() =>
-    Math.random() < 0.5 ? "PLAYER" : "ENEMY",
-  );
-  const [gameStarted, setGameStarted] = useState(false);
-  const [showCoinToss, setShowCoinToss] = useState(true);
+  const [state, dispatch] = useReducer(phases, {
+    activePlayer: generateRandomPlayer(),
+    gameStarted: false,
+    showCoinToss: true,
+    playerDeck: shuffle(starterDeck),
+    playerHand: [],
+    turn: 0,
+    nextPhase: "START_GAME",
+  });
+  const phaseKeyRef = useRef("");
 
-  const [playerDeck, setPlayerDeck] = useState<CardId[]>(() =>
-    shuffle(starterDeck),
-  );
-  const [playerHand, setPlayerHand] = useState<CardId[]>([]);
-
-  const isPlayerTurn = activePlayer === "PLAYER";
-
-  const endTurn = () => {
-    setActivePlayer((prev) => (prev === "PLAYER" ? "ENEMY" : "PLAYER"));
-  };
-
-  const startGame = () => {
-    setShowCoinToss(false);
-    setGameStarted(true);
-    console.log(`Game Started, player ${activePlayer} going first.`);
-  };
-
-  const drawAtTurnStart = () => {
-    setPlayerDeck((currentDeck) => {
-      const { deck: nextDeck, card } = drawOne(currentDeck);
-      if (card) {
-        setPlayerHand((hand) => [...hand, card]);
-        console.log(`Turn: PLAYER drew ${card}`);
-      } else {
-        console.log(`Turn: PLAYER tried to draw but deck was empty`);
-      }
-      return nextDeck;
-    });
-  };
-
-  /***** EFFECTS *****/
   useEffect(() => {
-    const t = setTimeout(() => {
-      if (!gameStarted) return;
+    if (!state.gameStarted) return;
+    if (state.nextPhase !== "TURN_START") return;
 
-      if (activePlayer === "ENEMY") {
-        console.log("Enemys Turn");
-        endTurn();
-        drawAtTurnStart();
-      }
-    }, 1000);
-    return () => clearTimeout(t);
-  }, [activePlayer, gameStarted]);
+    const key = `${state.turn}-${state.activePlayer}`;
+    if (phaseKeyRef.current === key) return;
+    phaseKeyRef.current = key;
+
+    if (state.activePlayer === "PLAYER") {
+      console.log("Starting turn for player: ", state.activePlayer);
+      console.log("Drawing Card");
+      dispatch({ phase: "PLAYER_TURN" });
+    }
+
+    if (state.activePlayer === "ENEMY") {
+      console.log("Starting Enemy Turn");
+      setTimeout(() => {
+        console.log("turn finished");
+        dispatch({ phase: "ENEMY_TURN" });
+      }, 1000);
+    }
+  }, [state.nextPhase, state.activePlayer, state.gameStarted]);
 
   /***** RENDER *****/
   return (
-    <GameContext value={{ activePlayer }}>
+    <GameContext value={{ activePlayer: state.activePlayer }}>
       <div className="Game">
-        {showCoinToss && <CoinToss startGame={startGame} />}
-        <p>Current Player: {activePlayer}</p>
+        {state.showCoinToss && (
+          <CoinToss startGame={() => dispatch({ phase: "START_GAME" })} />
+        )}
+        <p>Current Player: {state.activePlayer}</p>
 
-        {isPlayerTurn && <button onClick={endTurn}>End Turn</button>}
+        {state.activePlayer === "PLAYER" && (
+          <button onClick={() => dispatch({ phase: "END_TURN" })}>
+            End Turn
+          </button>
+        )}
 
         <p>Active Cards: </p>
-        <p>Cards in Hand: {playerHand.length}</p>
-        <p>Deck Remaining: {playerDeck.length}</p>
+        <p>Cards in Hand: {state.playerHand.length}</p>
+        <p>Deck Remaining: {state.playerDeck.length}</p>
       </div>
     </GameContext>
   );
