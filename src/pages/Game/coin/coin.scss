@@ -1,0 +1,94 @@
+.coinToss {
+  width: max-content;
+  position: relative;
+  height: 75px;
+  width: 75px;
+  margin: 0 auto;
+
+  &Wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &--heads,
+  &--tails {
+    position: absolute;
+    height: 75px;
+    width: 75px;
+    background-color: darkgoldenrod;
+    border-radius: 75px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &--heads {
+    color: gold;
+    z-index: 100;
+    backface-visibility: hidden;
+
+    &--selected {
+      animation: flipHeads 3s ease-out forwards;
+    }
+    &--notSelected {
+      animation: flipTails 3s ease-out forwards;
+    }
+  }
+
+  &--tails {
+    color: red;
+    transform: rotateY(180deg);
+
+    &--selected {
+      animation: flipTails 3s ease-out forwards;
+    }
+    &--notSelected {
+      animation: flipHeads 3s ease-out forwards;
+    }
+  }
+
+  &Close,
+  &Text {
+    opacity: 0;
+    visibility: hidden;
+
+    animation: showAfterDelay 0s linear forwards;
+    animation-delay: 3s;
+  }
+}
+
+@keyframes showAfterDelay {
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes flipHeads {
+  from {
+    transform: rotateY(0);
+  }
+
+  to {
+    transform: rotateY(1800deg);
+  }
+}
+
+@keyframes flipTails {
+  from {
+    transform: rotateY(0);
+  }
+
+  to {
+    transform: rotateY(1980deg);
+  }
+}
