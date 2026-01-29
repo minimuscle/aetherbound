@@ -1,0 +1,31 @@
+.Card {
+  width: 100px;
+  height: 100px;
+  background-color: #7a7a7a;
+
+  &__wrapper {
+    position: relative;
+  }
+
+  &__modal {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    z-index: 100;
+
+    &--active {
+      top: 70px;
+    }
+  }
+
+  &--active {
+    width: 100px;
+    height: 50px;
+    background-color: #ff9696;
+    padding: 10px;
+  }
+}

@@ -1,4 +1,4 @@
-import { CARD_LIBRARY } from "../../../components/Cards";
+import { CARD_LIBRARY } from "../../../components/Cards/library";
 import type { GameCard, GameCardId } from "../../../components/Cards/types";
 import type { Player } from "../../../utils/types/game";
 import { drawOne } from "./functions";
@@ -31,7 +31,7 @@ type State = {
   enemyHealth: number;
 };
 
-type Action = {
+export type Action = {
   phase: Exclude<Phase, ["TURN_START", "GAME_OVER"]>;
   card?: GameCardId;
 };
@@ -88,7 +88,10 @@ export const phases: Phases = (state, action) => {
         ...state,
         activePlayer: "ENEMY",
         enemyHealth: state.enemyHealth - playerFieldDamage,
-        nextPhase: state.enemyHealth <= 0 ? "GAME_OVER" : "TURN_START",
+        nextPhase:
+          state.enemyHealth - playerFieldDamage <= 0
+            ? "GAME_OVER"
+            : "TURN_START",
       };
     case "ENEMY_TURN":
       return {

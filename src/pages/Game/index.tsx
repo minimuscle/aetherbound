@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef } from "react";
-import { CARD_LIBRARY } from "../../components/Cards";
+import { Card } from "../../components/Cards";
 import type { CardNames } from "../../components/Cards/types";
 import { CoinToss } from "./coin";
 import "./game.scss";
@@ -8,13 +8,20 @@ import { generateRandomPlayer, shuffle } from "./utils/functions";
 import { phases } from "./utils/phases";
 
 const starterDeck: CardNames[] = [
-  "BASE_FIRE_IMP",
-  "BASE_AETHER_BOLT",
-  "BASE_FIRE_IMP",
-  "BASE_FIRE_IMP",
-  "BASE_FIRE_IMP",
-  "BASE_STONE_GOLEM",
-  "BASE_STONE_GOLEM",
+  "BASE_FIRE_CREATURE_IMP",
+  "BASE_FIRE_CREATURE_IMP",
+  "BASE_FIRE_CREATURE_IMP",
+  "BASE_FIRE_CREATURE_STONE_GOLEM",
+  "BASE_FIRE_CREATURE_STONE_GOLEM",
+  "BASE_FIRE_SPELL_AETHER_BOLT",
+  "BASE_FIRE_SPELL_AETHER_BOLT",
+  "BASE_FIRE_CREATURE_IMP",
+  "BASE_FIRE_CREATURE_IMP",
+  "BASE_FIRE_CREATURE_IMP",
+  "BASE_FIRE_CREATURE_STONE_GOLEM",
+  "BASE_FIRE_CREATURE_STONE_GOLEM",
+  "BASE_FIRE_SPELL_AETHER_BOLT",
+  "BASE_FIRE_SPELL_AETHER_BOLT",
 ];
 
 export const GamePage = () => {
@@ -67,7 +74,7 @@ export const GamePage = () => {
 
   /***** RENDER *****/
   return (
-    <GameContext value={{ activePlayer: state.activePlayer }}>
+    <GameContext value={{ activePlayer: state.activePlayer, dispatch }}>
       <div className="Game">
         {state.showCoinToss && (
           <CoinToss startGame={() => dispatch({ phase: "START_GAME" })} />
@@ -84,15 +91,13 @@ export const GamePage = () => {
 
         <p>
           Active Cards:{" "}
-          {state.playerField?.map(({ id }) => CARD_LIBRARY[id].name).join(", ")}
+          {state.playerField.map((card) => (
+            <Card card={card} isActive />
+          ))}
         </p>
         <p>Cards in Hand: </p>
-        {state.playerHand.map(({ id, gameCardId }) => (
-          <button
-            onClick={() => dispatch({ phase: "PLAY_CARD", card: gameCardId })}
-          >
-            {CARD_LIBRARY[id].name}
-          </button>
+        {state.playerHand.map((card) => (
+          <Card card={card} />
         ))}
         <p>Deck Remaining: {state.playerDeck.length}</p>
       </div>

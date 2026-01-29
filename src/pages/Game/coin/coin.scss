@@ -37,10 +37,10 @@
     backface-visibility: hidden;
 
     &--selected {
-      animation: flipHeads 3s ease-out forwards;
+      animation: flipHeads 1s ease-out forwards;
     }
     &--notSelected {
-      animation: flipTails 3s ease-out forwards;
+      animation: flipTails 1s ease-out forwards;
     }
   }
 
@@ -49,10 +49,10 @@
     transform: rotateY(180deg);
 
     &--selected {
-      animation: flipTails 3s ease-out forwards;
+      animation: flipTails 1s ease-out forwards;
     }
     &--notSelected {
-      animation: flipHeads 3s ease-out forwards;
+      animation: flipHeads 1s ease-out forwards;
     }
   }
 
@@ -62,7 +62,7 @@
     visibility: hidden;
 
     animation: showAfterDelay 0s linear forwards;
-    animation-delay: 3s;
+    animation-delay: 1s;
   }
 }
 
