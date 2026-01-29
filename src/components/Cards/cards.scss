@@ -1,43 +1,47 @@
 .Card {
-  width: 100px;
-  height: 100px;
-  background-color: #7a7a7a;
-  // position: absolute;
-  transform: translateY(0px);
-  animation: handCardEnter 0.5s ease-out forwards;
+  width: 90%;
+  height: 60px;
+  background-color: #ff9494;
+  cursor: pointer;
+  text-align: start;
+  align-items: start;
+  vertical-align: top;
+  display: flex;
+  justify-content: space-between;
 
-  &__wrapper {
-    position: relative;
-    &:first-of-type {
-      margin-top: 60px;
-    }
+  p {
+    margin: unset;
   }
 
-  &__modal {
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    z-index: 100;
+  &__cost {
+    width: 30px;
+    display: flex;
+    align-items: center;
+  }
 
-    &--active {
-      top: 70px;
-    }
+  &:not(:first-child) {
+    margin-top: -30px;
   }
 
   &--active {
-    width: 100px;
-    height: 50px;
-    background-color: #ff9696;
-    padding: 10px;
-  }
-}
+    max-width: 100px;
+    width: 100%;
+    height: 100%;
+    max-height: 100px;
+    background-color: #ff9494;
+    padding: 20px;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 20px;
 
-@keyframes handCardEnter {
-  to {
-    transform: translateY(-60px);
+    p {
+      margin: 0;
+    }
+
+    &__stats {
+      text-align: right;
+    }
   }
 }

@@ -90,7 +90,10 @@ export const phases: Phases = (state, action) => {
       return {
         ...state,
         activePlayer: "ENEMY",
-        enemyHealth: state.enemyHealth - playerFieldDamage,
+        enemyHealth:
+          state.enemyHealth - playerFieldDamage < 0
+            ? 0
+            : state.enemyHealth - playerFieldDamage,
         nextPhase:
           state.enemyHealth - playerFieldDamage <= 0
             ? "GAME_OVER"

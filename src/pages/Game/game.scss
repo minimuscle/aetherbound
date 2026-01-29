@@ -5,14 +5,15 @@
   &__board {
     height: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 50% 50%;
     grid-template-columns: 1fr;
+    overflow: hidden;
 
     &--enemy {
       border: 1px solid red;
     }
     &--player {
-      border: 1px solid #d5b864;
+      // border: 1px solid #d5b864;
       display: grid;
       grid-template-columns: 300px 1fr 250px;
     }
@@ -23,17 +24,117 @@
       }
 
       &__area {
-        border: 1px solid #d5b864;
+        // border: 1px solid #d5b864;
         display: grid;
         grid-template-rows: 1fr 200px;
       }
 
       &__cards {
         border: 1px solid #d5b864;
+
+        &Deck {
+          display: flex;
+          flex-direction: column;
+        }
       }
 
       &__field {
-        border: 1px solid #d5b864;
+        // border: 1px solid #d5b864;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 20px;
+      }
+
+      &__main {
+        // border: 1px solid #d5b864;
+        display: grid;
+        grid-template-columns: 1fr 350px 1fr;
+
+        &Runes {
+          // border: 1px solid #d5b864;
+        }
+
+        &Permanents {
+          // border: 1px solid #d5b864;
+        }
+      }
+
+      &__stats {
+        // border: 1px solid #d5b864;
+        display: grid;
+        grid-template-columns: 1fr 140px 1fr;
+        align-content: end;
+
+        &Shield,
+        &Weapon {
+          border: 5px solid #d5b864;
+          background-color: #7f6a2b;
+          color: #6a4c20;
+          border-radius: 100%;
+          height: 75px;
+          width: 75px;
+          margin-top: auto;
+          margin-bottom: 65px;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        &Shield {
+          margin-left: auto;
+        }
+
+        &Weapon {
+          margin-right: auto;
+        }
+
+        &Attunement {
+          border: 5px solid #d5b864;
+          border-radius: 100%;
+          height: 140px;
+          width: 140px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-bottom: 70px;
+          margin-left: -5px;
+          position: relative;
+
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+          }
+        }
+
+        &Health {
+          position: absolute;
+          top: -40px;
+          justify-content: center;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          svg {
+            color: rgb(255, 88, 88);
+          }
+        }
+      }
+
+      &__endTurn {
+        position: absolute;
+        bottom: -50px;
+        width: 175px;
+        height: 40px;
+        left: -20px;
+
+        span {
+          color: #8e8e8e;
+          font-size: 14px;
+        }
       }
     }
   }

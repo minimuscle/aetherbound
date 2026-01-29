@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import { FireSimpleIcon } from "@phosphor-icons/react";
 import { use, useState } from "react";
 import { GameContext } from "../../pages/Game/utils/context";
 import "./cards.scss";
@@ -27,41 +27,31 @@ export const Card: Card = ({ card, isActive, index }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   /***** RENDER *****/
-  return (
-    <div
-      className="Card__wrapper"
-      onMouseEnter={() => setIsVisible(true)}
-      onMouseLeave={() => setIsVisible(false)}
-    >
-      {isVisible && (
-        <div
-          className={classNames("Card__modal", {
-            "Card__modal--active": isActive,
-          })}
-        >
-          <h2>{cardData.name}</h2>
-          <p>{cardData.description}</p>
-          <p>Damage: {cardData.damage}</p>
-          {cardData.type === "CREATURE" && <p>Health: {cardData.health}</p>}
-          <p>Cost: {cardData.cost}</p>
-          {cardData.type === "SPELL" && <p>Target: {cardData.target}</p>}
-        </div>
-      )}
-      {isActive ? (
-        <div className="Card--active">{CARD_LIBRARY[id].name}</div>
-      ) : (
-        <button
-          onClick={() => dispatch({ phase: "PLAY_CARD", card: gameCardId })}
-          className="Card"
-          style={{
-            animationDelay: index
-              ? `${(index * 2) / Math.max(1, playerHand.length)}s`
-              : "0s",
-          }}
-        >
-          {CARD_LIBRARY[id].name}
-        </button>
+  return isActive ? (
+    <div className="Card--active">
+      <p className="Card--active__name">{cardData.name}</p>
+      {cardData.type === "CREATURE" && (
+        <p className="Card--active__stats">
+          {cardData.damage} / {cardData.health}
+        </p>
       )}
     </div>
+  ) : (
+    <button
+      onClick={() => dispatch({ phase: "PLAY_CARD", card: gameCardId })}
+      className="Card"
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+      // style={{
+      //   animationDelay: index
+      //     ? `${(index * 2) / Math.max(1, playerHand.length)}s`
+      //     : "0s",
+      // }}
+    >
+      <p>{cardData.name}</p>
+      <div className="Card__cost">
+        <FireSimpleIcon weight="fill" /> {cardData.cost}
+      </div>
+    </button>
   );
 };

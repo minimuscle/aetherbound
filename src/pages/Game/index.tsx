@@ -1,4 +1,8 @@
+import { HeartIcon, ShieldStarIcon, SwordIcon } from "@phosphor-icons/react";
 import { useEffect, useReducer, useRef } from "react";
+import exampleAttunement from "../../assets/images/exampleAttunement.webp";
+import { Button } from "../../components/Button";
+import { Card } from "../../components/Cards";
 import type { CardNames } from "../../components/Cards/types";
 import { CoinToss } from "./coin";
 import "./game.scss";
@@ -85,6 +89,24 @@ export const GamePage = () => {
     }
   }, [state]);
 
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.code !== "Space") return;
+
+      // gate conditions
+      if (!state.gameStarted) return;
+      if (state.activePlayer !== "PLAYER") return;
+      if (state.nextPhase === "GAME_OVER") return;
+
+      e.preventDefault(); // stop page scroll
+      dispatch({ phase: "END_TURN" });
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [state]);
+
   /***** RENDER *****/
   return (
     <GameContext value={{ state, dispatch }}>
@@ -98,38 +120,60 @@ export const GamePage = () => {
         )}
 
         <div className="Game__board">
-          <div className="Game__board--enemy" />
+          <div className="Game__board--enemy">
+            <p>Enemy Health: {state.enemyHealth} / 50</p>
+          </div>
           <div className="Game__board--player">
             <div className="Player__mana">
               <div className="Player__cardsTally" />
             </div>
             <div className="Player__area">
-              <div className="Player__field" />
-              <div className="Player__stats">
-                <div className="Player__statsRunes" />
-                <div>
-                  <div className="Player__statsShield" />
-                  <div className="Player__statsAttunement" />
-                  <div className="Plauer__statsWeapon" />
+              <div className="Player__field">
+                {state.playerField.map((card) => (
+                  <Card card={card} isActive key={card.gameCardId} />
+                ))}
+              </div>
+              <div className="Player__main">
+                <div className="Player__mainRunes" />
+                <div className="Player__stats">
+                  <div className="Player__statsShield">
+                    <ShieldStarIcon weight="bold" size={64} />
+                  </div>
+                  <div className="Player__statsAttunement">
+                    <div className="Player__statsHealth">
+                      <HeartIcon weight="fill" size={32} />
+                      {state.playerHealth} / 50
+                    </div>
+                    <img src={exampleAttunement} alt="" />
+                    {state.activePlayer === "PLAYER" &&
+                      state.gameStarted &&
+                      state.nextPhase !== "GAME_OVER" && (
+                        <Button
+                          onClick={() => dispatch({ phase: "END_TURN" })}
+                          className="Player__endTurn"
+                        >
+                          End Turn <span>(Space)</span>
+                        </Button>
+                      )}
+                  </div>
+                  <div className="Player__statsWeapon">
+                    <SwordIcon weight="bold" size={64} />
+                  </div>
                 </div>
-                <div className="Player__statsPermanents" />
+                <div className="Player__mainPermanents" />
               </div>
             </div>
             <div className="Player__cards">
-              <div className="Player__cardsDeck"></div>
+              <div className="Player__cardsDeck">
+                {state.playerHand.map((card, index) => (
+                  <Card card={card} key={card.gameCardId} index={index} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* <p>Current Player: {state.activePlayer}</p>
-        <p>Player Health: {state.playerHealth}</p>
-        <p>Enemy Health: {state.enemyHealth}</p>
-
-        {state.activePlayer === "PLAYER" && (
-          <button onClick={() => dispatch({ phase: "END_TURN" })}>
-            End Turn
-          </button>
-        )}
+        {/*
 
         <p>
           Active Cards:{" "}
