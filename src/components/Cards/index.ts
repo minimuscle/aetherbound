@@ -1,34 +1,34 @@
-import type { CardDefinition, CardId } from "./types";
+import type { CardDefinition } from "./types";
 
-export const CARD_LIBRARY: Record<CardId, CardDefinition> = {
-  FIRE_IMP: {
-    id: "FIRE_IMP",
+export const CARD_LIBRARY: CardDefinition[] = [
+  {
+    id: 1,
     name: "Fire Imp",
     type: "CREATURE",
     cost: 1,
-    rulesText: "A small demon that likes trouble.",
+    description: "A small demon that likes trouble.",
     effect: "ATTACK",
     damage: 1,
     health: 1,
   },
-  AETHER_BOLT: {
-    id: "AETHER_BOLT",
+  {
+    id: 2,
     name: "Aether Bolt",
     type: "SPELL",
     cost: 1,
-    rulesText: "Deal 2 damage to the enemy.",
+    description: "Deal 2 damage to the enemy.",
     effect: "ATTACK",
     damage: 2,
-    target: "ALL",
+    target: "ALIVE",
   },
-  STONE_GOLEM: {
-    id: "STONE_GOLEM",
+  {
+    id: 3,
     name: "Stone Golem",
     type: "CREATURE",
     cost: 3,
-    rulesText: "A sturdy construct.",
+    description: "A sturdy construct.",
     damage: 3,
     effect: "ATTACK",
     health: 10,
   },
-};
+];

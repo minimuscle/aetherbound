@@ -1,14 +1,22 @@
-export function shuffle<T>(arr: T[]) {
+import type { GameCard, GameCardId } from "../../../components/Cards/types";
+
+export function shuffle(arr: GameCard[]) {
   const copy = [...arr];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
+
+  // Fisher–Yates shuffle
+  for (let index = copy.length - 1; index > 0; index--) {
+    const j = Math.floor(Math.random() * (index + 1));
+    [copy[index], copy[j]] = [copy[j], copy[index]];
   }
-  return copy;
+
+  // Convert to instances AFTER shuffle
+  return copy.map((id, gameCardId) => ({
+    id,
+    gameCardId: gameCardId as unknown as GameCardId,
+  }));
 }
 
-export function drawOne<T>(deck: T[]) {
-  if (deck.length === 0) return { deck, card: null as T | null };
+export function drawOne(deck: GameCard[]) {
   const [card, ...rest] = deck;
   return { deck: rest, card };
 }

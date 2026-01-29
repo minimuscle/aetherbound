@@ -1,4 +1,5 @@
-import type { CardId } from "../../../components/Cards/types";
+import { CARD_LIBRARY } from "../../../components/Cards";
+import type { GameCard, GameCardId } from "../../../components/Cards/types";
 import type { Player } from "../../../utils/types/game";
 import { drawOne } from "./functions";
 
@@ -11,7 +12,8 @@ type Phase =
   | "PLAYER_TURN"
   | "ENEMY_TURN"
   | "TURN_START"
-  | "PLAY_CARD";
+  | "PLAY_CARD"
+  | "GAME_OVER";
 
 type State = {
   gameStarted: boolean;
@@ -19,14 +21,19 @@ type State = {
   nextPhase: Phase;
   turn: number;
   activePlayer: Player;
-  playerDeck: CardId[];
-  playerHand: CardId[];
-  playerField: CardId[];
+  playerDeck: GameCard[];
+  playerHand: GameCard[];
+  playerField: GameCard[];
+  playerHealth: number;
+  enemyDeck: GameCard[];
+  enemyHand: GameCard[];
+  enemyField: GameCard[];
+  enemyHealth: number;
 };
 
 type Action = {
-  phase: Exclude<Phase, "TURN_START">;
-  card?: CardId;
+  phase: Exclude<Phase, ["TURN_START", "GAME_OVER"]>;
+  card?: GameCardId;
 };
 
 type Phases = (state: State, action: Action) => State;
@@ -35,9 +42,15 @@ type Phases = (state: State, action: Action) => State;
  *   COMPONENT START
  **********************************************************************************************************/
 export const phases: Phases = (state, action) => {
+  const { deck: nextDeck, card } = drawOne(state.playerDeck);
+  const playerFieldDamage = state.playerField.reduce(
+    (acc, card) =>
+      acc + (CARD_LIBRARY.find((c) => c.id === card.id)?.damage ?? 0),
+    0,
+  );
+
   switch (action.phase) {
     case "START_GAME":
-      console.log(`Game Started, player ${state.activePlayer} going first.`);
       return {
         ...state,
         gameStarted: true,
@@ -45,7 +58,12 @@ export const phases: Phases = (state, action) => {
         nextPhase: "TURN_START",
       };
     case "PLAYER_TURN":
-      const { deck: nextDeck, card } = drawOne(state.playerDeck);
+      if (state.playerDeck.length === 0) {
+        return {
+          ...state,
+          nextPhase: "GAME_OVER",
+        };
+      }
 
       return {
         ...state,
@@ -57,16 +75,21 @@ export const phases: Phases = (state, action) => {
     case "PLAY_CARD":
       return {
         ...state,
-        playerHand: state.playerHand.filter((card) => card !== action.card),
-        playerField: [...state.playerField, action.card],
+        playerHand: state.playerHand.filter(
+          (card) => card.gameCardId !== action.card,
+        ),
+        playerField: [
+          ...state.playerField,
+          state.playerHand.find((card) => card.gameCardId === action.card),
+        ],
         nextPhase: "END_TURN",
       };
     case "END_TURN":
-      console.log("Ending turn for player: ", state.activePlayer);
       return {
         ...state,
         activePlayer: "ENEMY",
-        nextPhase: "TURN_START",
+        enemyHealth: state.enemyHealth - playerFieldDamage,
+        nextPhase: state.enemyHealth <= 0 ? "GAME_OVER" : "TURN_START",
       };
     case "ENEMY_TURN":
       return {

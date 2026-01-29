@@ -1,20 +1,12 @@
 import { useEffect, useReducer, useRef } from "react";
-import type { CardId } from "../../components/Cards/types";
+import { CARD_LIBRARY } from "../../components/Cards";
 import { CoinToss } from "./coin";
 import "./game.scss";
 import { GameContext } from "./utils/context";
 import { generateRandomPlayer, shuffle } from "./utils/functions";
 import { phases } from "./utils/phases";
 
-const starterDeck: CardId[] = [
-  "FIRE_IMP",
-  "FIRE_IMP",
-  "FIRE_IMP",
-  "FIRE_IMP",
-  "FIRE_IMP",
-  "AETHER_BOLT",
-  "STONE_GOLEM",
-];
+const starterDeck = [1, 1, 1, 2, 2, 2, 3, 3, 3];
 
 export const GamePage = () => {
   /***** HOOKS *****/
@@ -27,6 +19,11 @@ export const GamePage = () => {
     playerField: [],
     turn: 0,
     nextPhase: "START_GAME",
+    playerHealth: 50,
+    enemyHealth: 50,
+    enemyDeck: shuffle(starterDeck),
+    enemyHand: [],
+    enemyField: [],
   });
   const phaseKeyRef = useRef("");
 
@@ -53,6 +50,12 @@ export const GamePage = () => {
     }
   }, [state.nextPhase, state.activePlayer, state.gameStarted]);
 
+  useEffect(() => {
+    if (state.nextPhase === "GAME_OVER") {
+      console.log("Game Over");
+    }
+  }, [state.nextPhase]);
+
   /***** RENDER *****/
   return (
     <GameContext value={{ activePlayer: state.activePlayer }}>
@@ -61,6 +64,8 @@ export const GamePage = () => {
           <CoinToss startGame={() => dispatch({ phase: "START_GAME" })} />
         )}
         <p>Current Player: {state.activePlayer}</p>
+        <p>Player Health: {state.playerHealth}</p>
+        <p>Enemy Health: {state.enemyHealth}</p>
 
         {state.activePlayer === "PLAYER" && (
           <button onClick={() => dispatch({ phase: "END_TURN" })}>
@@ -68,11 +73,18 @@ export const GamePage = () => {
           </button>
         )}
 
-        <p>Active Cards: {state.playerField?.map((card) => card).join(", ")}</p>
+        <p>
+          Active Cards:{" "}
+          {state.playerField
+            ?.map(({ id }) => CARD_LIBRARY.find((card) => card.id === id)?.name)
+            .join(", ")}
+        </p>
         <p>Cards in Hand: </p>
-        {state.playerHand.map((card) => (
-          <button onClick={() => dispatch({ phase: "PLAY_CARD", card })}>
-            {card}
+        {state.playerHand.map(({ id, gameCardId }) => (
+          <button
+            onClick={() => dispatch({ phase: "PLAY_CARD", card: gameCardId })}
+          >
+            {CARD_LIBRARY.find((card) => card.id === id)?.name}
           </button>
         ))}
         <p>Deck Remaining: {state.playerDeck.length}</p>

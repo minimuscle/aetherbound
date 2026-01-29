@@ -1,12 +1,14 @@
-export type CardId = "FIRE_IMP" | "AETHER_BOLT" | "STONE_GOLEM";
+import type { Tagged } from "type-fest";
 
-export type CardType = "CREATURE" | "SPELL";
+export type CardType = "CREATURE" | "SPELL" | "PERMANENT" | "WEAPON" | "SHIELD";
+export type CardId = Tagged<"CardId", number>;
+export type GameCardId = Tagged<"GameCardId", number>;
 
 export type CardDefinition = {
   id: CardId;
   name: string;
   cost: number;
-  rulesText: string;
+  description: string;
   effect: "ATTACK";
   damage: number;
 } & (
@@ -14,12 +16,10 @@ export type CardDefinition = {
       type: "CREATURE";
       health: number;
     }
-  | { type: "SPELL"; target: "CREATURE" | "PLAYER" | "ALL" }
+  | { type: "SPELL"; target: "CREATURE" | "PLAYER" | "ALIVE" | "PERMANENT" }
 );
 
-export type CardInstance = {
-  instanceId: string; // unique per copy
-  cardId: CardId; // points to definition
-  owner: "PLAYER" | "ENEMY";
-  zone: "DECK" | "HAND" | "BOARD" | "GRAVEYARD";
+export type GameCard = {
+  id: CardId;
+  gameCardId: GameCardId;
 };
