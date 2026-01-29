@@ -9,7 +9,7 @@ extend({ Container, Text });
 
 export const App = () => {
   /***** HOOKS *****/
-  const [activePage, setActivePage] = useState<Page>("GAME");
+  const [activePage, setActivePage] = useState<Page>("MAIN");
 
   /***** RENDER *****/
   return (

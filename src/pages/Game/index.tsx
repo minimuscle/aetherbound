@@ -24,6 +24,7 @@ export const GamePage = () => {
     showCoinToss: true,
     playerDeck: shuffle(starterDeck),
     playerHand: [],
+    playerField: [],
     turn: 0,
     nextPhase: "START_GAME",
   });
@@ -67,8 +68,13 @@ export const GamePage = () => {
           </button>
         )}
 
-        <p>Active Cards: </p>
-        <p>Cards in Hand: {state.playerHand.length}</p>
+        <p>Active Cards: {state.playerField?.map((card) => card).join(", ")}</p>
+        <p>Cards in Hand: </p>
+        {state.playerHand.map((card) => (
+          <button onClick={() => dispatch({ phase: "PLAY_CARD", card })}>
+            {card}
+          </button>
+        ))}
         <p>Deck Remaining: {state.playerDeck.length}</p>
       </div>
     </GameContext>

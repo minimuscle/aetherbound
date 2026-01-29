@@ -10,7 +10,8 @@ type Phase =
   | "END_TURN"
   | "PLAYER_TURN"
   | "ENEMY_TURN"
-  | "TURN_START";
+  | "TURN_START"
+  | "PLAY_CARD";
 
 type State = {
   gameStarted: boolean;
@@ -20,10 +21,12 @@ type State = {
   activePlayer: Player;
   playerDeck: CardId[];
   playerHand: CardId[];
+  playerField: CardId[];
 };
 
 type Action = {
   phase: Exclude<Phase, "TURN_START">;
+  card?: CardId;
 };
 
 type Phases = (state: State, action: Action) => State;
@@ -48,17 +51,28 @@ export const phases: Phases = (state, action) => {
         ...state,
         playerDeck: nextDeck,
         playerHand: [...state.playerHand, card],
+        nextPhase: "END_TURN",
+      };
+
+    case "PLAY_CARD":
+      return {
+        ...state,
+        playerHand: state.playerHand.filter((card) => card !== action.card),
+        playerField: [...state.playerField, action.card],
+        nextPhase: "END_TURN",
       };
     case "END_TURN":
       console.log("Ending turn for player: ", state.activePlayer);
       return {
         ...state,
         activePlayer: "ENEMY",
+        nextPhase: "TURN_START",
       };
     case "ENEMY_TURN":
       return {
         ...state,
         activePlayer: "PLAYER",
+        nextPhase: "TURN_START",
       };
   }
 };
