@@ -1,6 +1,10 @@
-import type { GameCard, GameCardId } from "../../../components/Cards/types";
+import type {
+  CardNames,
+  GameCard,
+  GameCardId,
+} from "../../../components/Cards/types";
 
-export function shuffle(arr: GameCard[]) {
+export function shuffle(arr: CardNames[]) {
   const copy = [...arr];
 
   // Fisher–Yates shuffle

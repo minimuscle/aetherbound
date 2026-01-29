@@ -1,12 +1,21 @@
 import { useEffect, useReducer, useRef } from "react";
 import { CARD_LIBRARY } from "../../components/Cards";
+import type { CardNames } from "../../components/Cards/types";
 import { CoinToss } from "./coin";
 import "./game.scss";
 import { GameContext } from "./utils/context";
 import { generateRandomPlayer, shuffle } from "./utils/functions";
 import { phases } from "./utils/phases";
 
-const starterDeck = [1, 1, 1, 2, 2, 2, 3, 3, 3];
+const starterDeck: CardNames[] = [
+  "BASE_FIRE_IMP",
+  "BASE_AETHER_BOLT",
+  "BASE_FIRE_IMP",
+  "BASE_FIRE_IMP",
+  "BASE_FIRE_IMP",
+  "BASE_STONE_GOLEM",
+  "BASE_STONE_GOLEM",
+];
 
 export const GamePage = () => {
   /***** HOOKS *****/
@@ -48,13 +57,13 @@ export const GamePage = () => {
         dispatch({ phase: "ENEMY_TURN" });
       }, 1000);
     }
-  }, [state.nextPhase, state.activePlayer, state.gameStarted]);
+  }, [state.nextPhase, state.activePlayer, state.gameStarted, state.turn]);
 
   useEffect(() => {
     if (state.nextPhase === "GAME_OVER") {
-      console.log("Game Over");
+      console.log("Game Over", state);
     }
-  }, [state.nextPhase]);
+  }, [state]);
 
   /***** RENDER *****/
   return (
@@ -75,16 +84,14 @@ export const GamePage = () => {
 
         <p>
           Active Cards:{" "}
-          {state.playerField
-            ?.map(({ id }) => CARD_LIBRARY.find((card) => card.id === id)?.name)
-            .join(", ")}
+          {state.playerField?.map(({ id }) => CARD_LIBRARY[id].name).join(", ")}
         </p>
         <p>Cards in Hand: </p>
         {state.playerHand.map(({ id, gameCardId }) => (
           <button
             onClick={() => dispatch({ phase: "PLAY_CARD", card: gameCardId })}
           >
-            {CARD_LIBRARY.find((card) => card.id === id)?.name}
+            {CARD_LIBRARY[id].name}
           </button>
         ))}
         <p>Deck Remaining: {state.playerDeck.length}</p>

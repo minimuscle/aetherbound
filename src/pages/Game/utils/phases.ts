@@ -44,8 +44,7 @@ type Phases = (state: State, action: Action) => State;
 export const phases: Phases = (state, action) => {
   const { deck: nextDeck, card } = drawOne(state.playerDeck);
   const playerFieldDamage = state.playerField.reduce(
-    (acc, card) =>
-      acc + (CARD_LIBRARY.find((c) => c.id === card.id)?.damage ?? 0),
+    (acc, card) => acc + (CARD_LIBRARY[card.id]?.damage ?? 0),
     0,
   );
 

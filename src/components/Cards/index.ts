@@ -1,8 +1,7 @@
 import type { CardDefinition } from "./types";
 
-export const CARD_LIBRARY: CardDefinition[] = [
-  {
-    id: 1,
+export const CARD_LIBRARY = {
+  BASE_FIRE_IMP: {
     name: "Fire Imp",
     type: "CREATURE",
     cost: 1,
@@ -11,8 +10,7 @@ export const CARD_LIBRARY: CardDefinition[] = [
     damage: 1,
     health: 1,
   },
-  {
-    id: 2,
+  BASE_AETHER_BOLT: {
     name: "Aether Bolt",
     type: "SPELL",
     cost: 1,
@@ -21,8 +19,7 @@ export const CARD_LIBRARY: CardDefinition[] = [
     damage: 2,
     target: "ALIVE",
   },
-  {
-    id: 3,
+  BASE_STONE_GOLEM: {
     name: "Stone Golem",
     type: "CREATURE",
     cost: 3,
@@ -31,4 +28,4 @@ export const CARD_LIBRARY: CardDefinition[] = [
     effect: "ATTACK",
     health: 10,
   },
-];
+} as const satisfies Record<string, CardDefinition>;

@@ -1,11 +1,10 @@
 import type { Tagged } from "type-fest";
+import type { CARD_LIBRARY } from ".";
 
 export type CardType = "CREATURE" | "SPELL" | "PERMANENT" | "WEAPON" | "SHIELD";
-export type CardId = Tagged<"CardId", number>;
 export type GameCardId = Tagged<"GameCardId", number>;
 
 export type CardDefinition = {
-  id: CardId;
   name: string;
   cost: number;
   description: string;
@@ -20,6 +19,8 @@ export type CardDefinition = {
 );
 
 export type GameCard = {
-  id: CardId;
+  id: CardNames;
   gameCardId: GameCardId;
 };
+
+export type CardNames = keyof typeof CARD_LIBRARY;
