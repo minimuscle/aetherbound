@@ -51,9 +51,9 @@ export const GamePage = () => {
     playerField: [],
     turn: 0,
     nextPhase: "START_GAME",
-    playerHealth: 50,
+    playerHealth: 100,
     playerAttunement: "FIRE" as unknown as Element,
-    enemyHealth: 50,
+    enemyHealth: 100,
     enemyDeck: shuffle(starterDeck),
     enemyHand: [],
     enemyField: [],
@@ -134,7 +134,7 @@ export const GamePage = () => {
 
         <div className="Game__board">
           <div className="Game__board--enemy">
-            <p>Enemy Health: {state.enemyHealth} / 50</p>
+            <p>Enemy Health: {state.enemyHealth} / 100</p>
           </div>
           <div className="Game__board--player">
             <div className="Player__mana">
@@ -143,9 +143,7 @@ export const GamePage = () => {
                   {type}: {amount}
                 </p>
               ))}
-              <div className="Player__cardsTally">
-                {state.playerDeck.length} Cards
-              </div>
+              <div className="Player__cardsTally">{state.playerDeck.length} Cards</div>
             </div>
             <div className="Player__area">
               <div className="Player__field">
@@ -162,19 +160,14 @@ export const GamePage = () => {
                   <div className="Player__statsAttunement">
                     <div className="Player__statsHealth">
                       <HeartIcon weight="fill" size={32} />
-                      {state.playerHealth} / 50
+                      {state.playerHealth} / 100
                     </div>
                     <img src={exampleAttunement} alt="" />
-                    {state.activePlayer === "PLAYER" &&
-                      state.gameStarted &&
-                      state.nextPhase !== "GAME_OVER" && (
-                        <Button
-                          onClick={() => dispatch({ phase: "END_TURN" })}
-                          className="Player__endTurn"
-                        >
-                          End Turn <span>(Space)</span>
-                        </Button>
-                      )}
+                    {state.activePlayer === "PLAYER" && state.gameStarted && state.nextPhase !== "GAME_OVER" && (
+                      <Button onClick={() => dispatch({ phase: "END_TURN" })} className="Player__endTurn">
+                        End Turn <span>(Space)</span>
+                      </Button>
+                    )}
                   </div>
                   <div className="Player__statsWeapon">
                     <SwordIcon weight="bold" size={64} />

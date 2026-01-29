@@ -8,6 +8,7 @@
   vertical-align: top;
   display: flex;
   justify-content: space-between;
+  position: relative;
 
   p {
     margin: unset;
@@ -43,5 +44,18 @@
     &__stats {
       text-align: right;
     }
+  }
+
+  &Modal {
+    position: absolute;
+    background-color: #fff;
+    color: black;
+    top: -350px;
+    left: -250px;
+    max-height: 300px;
+    max-width: 200px;
+    height: 300px;
+    width: 100%;
+    padding: 20px;
   }
 }
