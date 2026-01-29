@@ -1,27 +1,39 @@
 import { useEffect, useReducer, useRef } from "react";
-import { Card } from "../../components/Cards";
 import type { CardNames } from "../../components/Cards/types";
 import { CoinToss } from "./coin";
 import "./game.scss";
+import { cardDraw } from "./utils/audio";
 import { GameContext } from "./utils/context";
 import { generateRandomPlayer, shuffle } from "./utils/functions";
 import { phases } from "./utils/phases";
 
 const starterDeck: CardNames[] = [
-  "BASE_FIRE_CREATURE_IMP",
-  "BASE_FIRE_CREATURE_IMP",
-  "BASE_FIRE_CREATURE_IMP",
-  "BASE_FIRE_CREATURE_STONE_GOLEM",
-  "BASE_FIRE_CREATURE_STONE_GOLEM",
-  "BASE_FIRE_SPELL_AETHER_BOLT",
-  "BASE_FIRE_SPELL_AETHER_BOLT",
-  "BASE_FIRE_CREATURE_IMP",
-  "BASE_FIRE_CREATURE_IMP",
-  "BASE_FIRE_CREATURE_IMP",
-  "BASE_FIRE_CREATURE_STONE_GOLEM",
-  "BASE_FIRE_CREATURE_STONE_GOLEM",
-  "BASE_FIRE_SPELL_AETHER_BOLT",
-  "BASE_FIRE_SPELL_AETHER_BOLT",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_SHIELD_HEAT_SHIELD",
+  "BASE_FIRE_WEAPON_FLAMING_SWORD",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
 ];
 
 export const GamePage = () => {
@@ -55,6 +67,7 @@ export const GamePage = () => {
       console.log("Starting turn for player: ", state.activePlayer);
       console.log("Drawing Card");
       dispatch({ phase: "PLAYER_TURN" });
+      cardDraw.play();
     }
 
     if (state.activePlayer === "ENEMY") {
@@ -74,12 +87,41 @@ export const GamePage = () => {
 
   /***** RENDER *****/
   return (
-    <GameContext value={{ activePlayer: state.activePlayer, dispatch }}>
+    <GameContext value={{ state, dispatch }}>
       <div className="Game">
         {state.showCoinToss && (
-          <CoinToss startGame={() => dispatch({ phase: "START_GAME" })} />
+          <CoinToss
+            startGame={() => {
+              dispatch({ phase: "START_GAME" });
+            }}
+          />
         )}
-        <p>Current Player: {state.activePlayer}</p>
+
+        <div className="Game__board">
+          <div className="Game__board--enemy" />
+          <div className="Game__board--player">
+            <div className="Player__mana">
+              <div className="Player__cardsTally" />
+            </div>
+            <div className="Player__area">
+              <div className="Player__field" />
+              <div className="Player__stats">
+                <div className="Player__statsRunes" />
+                <div>
+                  <div className="Player__statsShield" />
+                  <div className="Player__statsAttunement" />
+                  <div className="Plauer__statsWeapon" />
+                </div>
+                <div className="Player__statsPermanents" />
+              </div>
+            </div>
+            <div className="Player__cards">
+              <div className="Player__cardsDeck"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* <p>Current Player: {state.activePlayer}</p>
         <p>Player Health: {state.playerHealth}</p>
         <p>Enemy Health: {state.enemyHealth}</p>
 
@@ -92,14 +134,14 @@ export const GamePage = () => {
         <p>
           Active Cards:{" "}
           {state.playerField.map((card) => (
-            <Card card={card} isActive />
+            <Card card={card} isActive key={card.gameCardId} />
           ))}
         </p>
         <p>Cards in Hand: </p>
-        {state.playerHand.map((card) => (
-          <Card card={card} />
+        {state.playerHand.map((card, index) => (
+          <Card card={card} key={card.gameCardId} index={index} />
         ))}
-        <p>Deck Remaining: {state.playerDeck.length}</p>
+        <p>Deck Remaining: {state.playerDeck.length}</p> */}
       </div>
     </GameContext>
   );

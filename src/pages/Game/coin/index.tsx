@@ -1,6 +1,7 @@
-import { CrownSimpleIcon, XIcon } from "@phosphor-icons/react";
+import { CrownSimpleIcon, SkullIcon } from "@phosphor-icons/react";
 import classNames from "classnames";
 import React, { use } from "react";
+import { Button } from "../../../components/Button";
 import { GameContext } from "../utils/context";
 import "./coin.scss";
 
@@ -16,33 +17,42 @@ type CoinToss = React.FC<{
  **********************************************************************************************************/
 export const CoinToss: CoinToss = ({ startGame }) => {
   /***** HOOKS *****/
-  const { activePlayer } = use(GameContext)!;
+  const {
+    state: { activePlayer },
+  } = use(GameContext)!;
 
   /***** RENDER *****/
   return (
     <div className="coinTossWrapper">
-      <div className="coinToss">
-        <div
-          className={classNames("coinToss--heads", {
-            "coinToss--heads--selected": activePlayer === "PLAYER",
-            "coinToss--heads--notSelected": activePlayer === "ENEMY",
-          })}
-        >
-          <CrownSimpleIcon size={64} />
+      <div className="coinToss__main">
+        <div className="coinToss">
+          <div
+            className={classNames("coinToss--heads", {
+              "coinToss--heads--selected": activePlayer === "PLAYER",
+              "coinToss--heads--notSelected": activePlayer === "ENEMY",
+            })}
+          >
+            <CrownSimpleIcon weight="bold" size={64} />
+          </div>
+          <div
+            className={classNames("coinToss--tails", {
+              "coinToss--heads--selected": activePlayer === "ENEMY",
+              "coinToss--heads--notSelected": activePlayer === "PLAYER",
+            })}
+          >
+            <SkullIcon weight="bold" size={64} />
+          </div>
         </div>
-        <div
-          className={classNames("coinToss--tails", {
-            "coinToss--heads--selected": activePlayer === "ENEMY",
-            "coinToss--heads--notSelected": activePlayer === "PLAYER",
-          })}
-        >
-          <XIcon size={64} />
+        <div className="coinToss__button">
+          <p className="coinTossText">
+            {activePlayer === "PLAYER" ? "You have" : "The Enemy has"} won the
+            coin toss
+          </p>
+          <Button onClick={startGame} className="coinTossClose">
+            Start Game
+          </Button>
         </div>
       </div>
-      <h1 className="coinTossText">Winner: {activePlayer}</h1>
-      <button onClick={startGame} className="coinTossClose">
-        Start
-      </button>
     </div>
   );
 };

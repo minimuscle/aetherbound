@@ -1,21 +1,51 @@
 import type { Tagged } from "type-fest";
 import type { CARD_LIBRARY } from "./library";
 
-export type CardType = "CREATURE" | "SPELL" | "PERMANENT" | "WEAPON" | "SHIELD";
+export type CardType =
+  | "CREATURE"
+  | "SPELL"
+  | "PERMANENT"
+  | "WEAPON"
+  | "SHIELD"
+  | "RUNE";
+type CardEffects = "ATTACK" | "GENERATE" | "PROTECT";
 export type GameCardId = Tagged<"GameCardId", number>;
 
 export type CardDefinition = {
   name: string;
   cost: number;
   description: string;
-  effect: "ATTACK";
-  damage: number;
+  effect: CardEffects;
+  element: Element;
 } & (
   | {
       type: "CREATURE";
       health: number;
+      damage: number;
     }
-  | { type: "SPELL"; target: "CREATURE" | "PLAYER" | "ALIVE" | "PERMANENT" }
+  | {
+      type: "SPELL";
+      target: "CREATURE" | "PLAYER" | "ALIVE" | "PERMANENT";
+      damage: number;
+    }
+  | {
+      type: "RUNE";
+      mana: {
+        amount: number;
+        element: Element;
+      };
+    }
+  | {
+      type: "WEAPON";
+      damage: number;
+    }
+  | {
+      type: "SHIELD";
+      shield_effect: {
+        type: "DAMAGE_REDUCTION";
+        amount: number;
+      };
+    }
 );
 
 export type GameCard = {
@@ -24,6 +54,16 @@ export type GameCard = {
 };
 
 export type CardNames = keyof typeof CARD_LIBRARY;
-export type Element = "FIRE" | "EARTH" | "WATER" | "AIR" | "LIGHT" | "DARK";
+export type Element =
+  | "FIRE"
+  | "EARTH"
+  | "WATER"
+  | "AIR"
+  | "LIGHT"
+  | "DARK"
+  | "LIFE"
+  | "DEATH"
+  | "AETHER"
+  | "VOID";
 export type Expansion = "BASE";
 export type CardKey = `${Expansion}_${Element}_${CardType}_${string}`;

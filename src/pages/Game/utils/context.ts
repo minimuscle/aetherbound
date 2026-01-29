@@ -1,12 +1,11 @@
 import { createContext } from "react";
-import type { Player } from "../../../utils/types/game";
-import type { Action } from "./phases";
+import type { Action, State } from "./phases";
 
 /**********************************************************************************************************
  *   TYPE DEFINITIONS
  **********************************************************************************************************/
 type GameContext = {
-  activePlayer: Player;
+  state: State;
   dispatch: React.Dispatch<Action>;
 };
 

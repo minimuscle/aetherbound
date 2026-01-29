@@ -1,8 +1,11 @@
+import { SpeakerHighIcon, SpeakerSlashIcon } from "@phosphor-icons/react";
 import { extend } from "@pixi/react";
 import { Container, Text } from "pixi.js";
 import { useState } from "react";
-import styles from "./App.module.css";
+import "./App.scss";
 import { GamePage } from "./pages/Game";
+import { MainPage } from "./pages/main";
+import { GlobalContext } from "./utils/context";
 import type { Page } from "./utils/types/game";
 
 extend({ Container, Text });
@@ -10,17 +13,30 @@ extend({ Container, Text });
 export const App = () => {
   /***** HOOKS *****/
   const [activePage, setActivePage] = useState<Page>("MAIN");
+  const [playMusic, setPlay] = useState(true);
+
+  /***** RENDER HELPERS *****/
+  const RenderPage: Record<Page, React.ReactNode> = {
+    MAIN: <MainPage />,
+    GAME: <GamePage />,
+  };
 
   /***** RENDER *****/
   return (
-    <div className={styles.container}>
-      <h1>Aetherbound</h1>
-      {activePage === "MAIN" && (
-        <button type="button" onClick={() => setActivePage("GAME")}>
-          Start Game
+    <GlobalContext value={{ playMusic, activePage, setActivePage }}>
+      <div className="MainContainer">
+        <button
+          className="MainContainer__audio"
+          onClick={() => setPlay(!playMusic)}
+        >
+          {playMusic ? (
+            <SpeakerHighIcon size={32} />
+          ) : (
+            <SpeakerSlashIcon size={32} />
+          )}
         </button>
-      )}
-      {activePage === "GAME" && <GamePage />}
-    </div>
+        {RenderPage[activePage]}
+      </div>
+    </GlobalContext>
   );
 };

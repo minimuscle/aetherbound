@@ -25,5 +25,12 @@ export function drawOne(deck: GameCard[]) {
   return { deck: rest, card };
 }
 
+export function drawSix(deck: GameCard[]) {
+  const cards = deck.slice(0, 6);
+  const rest = deck.slice(6);
+
+  return { deck: rest, cards };
+}
+
 export const generateRandomPlayer = () =>
   Math.random() < 0.5 ? "PLAYER" : "ENEMY";

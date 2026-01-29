@@ -1,0 +1,19 @@
+.Button {
+  background-color: #2b2b2b;
+  color: white;
+  border: 1px solid #d5b864;
+  height: 50px;
+  width: 250px;
+  border-radius: 5px;
+  margin: 0 auto;
+  cursor: pointer;
+  font-size: 18px;
+
+  &:hover {
+    background-color: #1d1d1d;
+  }
+
+  &:active {
+    background-color: #111111;
+  }
+}

@@ -11,15 +11,19 @@ import type { GameCard } from "./types";
 type Card = React.FC<{
   card: GameCard;
   isActive?: boolean;
+  index?: number;
 }>;
 
 /**********************************************************************************************************
  *   COMPONENT START
  **********************************************************************************************************/
-export const Card: Card = ({ card, isActive }) => {
+export const Card: Card = ({ card, isActive, index }) => {
   const { gameCardId, id } = card;
   const cardData = CARD_LIBRARY[id];
-  const { dispatch } = use(GameContext)!;
+  const {
+    dispatch,
+    state: { playerHand },
+  } = use(GameContext)!;
   const [isVisible, setIsVisible] = useState(false);
 
   /***** RENDER *****/
@@ -49,6 +53,11 @@ export const Card: Card = ({ card, isActive }) => {
         <button
           onClick={() => dispatch({ phase: "PLAY_CARD", card: gameCardId })}
           className="Card"
+          style={{
+            animationDelay: index
+              ? `${(index * 2) / Math.max(1, playerHand.length)}s`
+              : "0s",
+          }}
         >
           {CARD_LIBRARY[id].name}
         </button>

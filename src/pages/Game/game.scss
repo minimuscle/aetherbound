@@ -1,2 +1,40 @@
 .Game {
+  height: 100%;
+  width: 100%;
+
+  &__board {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+
+    &--enemy {
+      border: 1px solid red;
+    }
+    &--player {
+      border: 1px solid #d5b864;
+      display: grid;
+      grid-template-columns: 300px 1fr 250px;
+    }
+
+    .Player {
+      &__mana {
+        border: 1px solid #d5b864;
+      }
+
+      &__area {
+        border: 1px solid #d5b864;
+        display: grid;
+        grid-template-rows: 1fr 200px;
+      }
+
+      &__cards {
+        border: 1px solid #d5b864;
+      }
+
+      &__field {
+        border: 1px solid #d5b864;
+      }
+    }
+  }
 }

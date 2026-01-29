@@ -1,7 +1,7 @@
 import { CARD_LIBRARY } from "../../../components/Cards/library";
 import type { GameCard, GameCardId } from "../../../components/Cards/types";
 import type { Player } from "../../../utils/types/game";
-import { drawOne } from "./functions";
+import { drawOne, drawSix } from "./functions";
 
 /**********************************************************************************************************
  *   TYPE DEFINITIONS
@@ -15,7 +15,7 @@ type Phase =
   | "PLAY_CARD"
   | "GAME_OVER";
 
-type State = {
+export type State = {
   gameStarted: boolean;
   showCoinToss: boolean;
   nextPhase: Phase;
@@ -42,6 +42,7 @@ type Phases = (state: State, action: Action) => State;
  *   COMPONENT START
  **********************************************************************************************************/
 export const phases: Phases = (state, action) => {
+  const { deck: startingDeck, cards } = drawSix(state.playerDeck);
   const { deck: nextDeck, card } = drawOne(state.playerDeck);
   const playerFieldDamage = state.playerField.reduce(
     (acc, card) => acc + (CARD_LIBRARY[card.id]?.damage ?? 0),
@@ -55,6 +56,8 @@ export const phases: Phases = (state, action) => {
         gameStarted: true,
         showCoinToss: false,
         nextPhase: "TURN_START",
+        playerDeck: startingDeck,
+        playerHand: cards,
       };
     case "PLAYER_TURN":
       if (state.playerDeck.length === 0) {
