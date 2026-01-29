@@ -3,7 +3,7 @@ import { useEffect, useReducer, useRef } from "react";
 import exampleAttunement from "../../assets/images/exampleAttunement.webp";
 import { Button } from "../../components/Button";
 import { Card } from "../../components/Cards";
-import type { CardNames } from "../../components/Cards/types";
+import type { CardNames, Element } from "../../components/Cards/types";
 import { CoinToss } from "./coin";
 import "./game.scss";
 import { cardDraw } from "./utils/audio";
@@ -52,10 +52,23 @@ export const GamePage = () => {
     turn: 0,
     nextPhase: "START_GAME",
     playerHealth: 50,
+    playerAttunement: "FIRE" as unknown as Element,
     enemyHealth: 50,
     enemyDeck: shuffle(starterDeck),
     enemyHand: [],
     enemyField: [],
+    mana: {
+      FIRE: 0,
+      WATER: 0,
+      EARTH: 0,
+      AIR: 0,
+      LIGHT: 0,
+      DARK: 0,
+      LIFE: 0,
+      DEATH: 0,
+      AETHER: 0,
+      VOID: 0,
+    },
   });
   const phaseKeyRef = useRef("");
 
@@ -125,7 +138,14 @@ export const GamePage = () => {
           </div>
           <div className="Game__board--player">
             <div className="Player__mana">
-              <div className="Player__cardsTally" />
+              {Object.entries(state.mana).map(([type, amount]) => (
+                <p>
+                  {type}: {amount}
+                </p>
+              ))}
+              <div className="Player__cardsTally">
+                {state.playerDeck.length} Cards
+              </div>
             </div>
             <div className="Player__area">
               <div className="Player__field">
