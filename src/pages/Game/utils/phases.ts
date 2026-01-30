@@ -87,11 +87,12 @@ export const phases: Phases = (state, action) => {
       if (cardData?.cost > state.mana[cardData.element as keyof typeof state.mana]) {
         return state;
       }
+      const fieldNoExtraShield = cardData.type === "SHIELD" ? state.playerField.filter(({ id }) => CARD_LIBRARY[id].type !== "SHIELD") : state.playerField;
 
       return {
         ...state,
         playerHand: state.playerHand.filter((card) => card.gameCardId !== action.card),
-        playerField: [...state.playerField, state.playerHand.find((card) => card.gameCardId === action.card)],
+        playerField: [...fieldNoExtraShield, state.playerHand.find((card) => card.gameCardId === action.card)],
         nextPhase: "END_TURN",
         mana: {
           ...state.mana,

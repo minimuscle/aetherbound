@@ -3,6 +3,7 @@ import { useEffect, useReducer, useRef } from "react";
 import exampleAttunement from "../../assets/images/exampleAttunement.webp";
 import { Button } from "../../components/Button";
 import { Card } from "../../components/Cards";
+import { CARD_LIBRARY } from "../../components/Cards/library";
 import type { CardNames, Element } from "../../components/Cards/types";
 import { CoinToss } from "./coin";
 import "./game.scss";
@@ -12,18 +13,24 @@ import { generateRandomPlayer, shuffle } from "./utils/functions";
 import { phases } from "./utils/phases";
 
 const starterDeck: CardNames[] = [
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
+  // "BASE_FIRE_CREATURE_EMBER",
+  // "BASE_FIRE_CREATURE_EMBER",
+  // "BASE_FIRE_CREATURE_EMBER",
+  // "BASE_FIRE_CREATURE_EMBER",
+  // "BASE_FIRE_CREATURE_EMBER",
+  // "BASE_FIRE_CREATURE_EMBER",
+  // "BASE_FIRE_CREATURE_RED_DRAGON",
+  // "BASE_FIRE_CREATURE_RED_DRAGON",
+  // "BASE_FIRE_CREATURE_RED_DRAGON",
+  // "BASE_FIRE_CREATURE_RED_DRAGON",
+  // "BASE_FIRE_CREATURE_RED_DRAGON",
+  // "BASE_FIRE_CREATURE_RED_DRAGON",
+  // "BASE_FIRE_PERMANENT_RUNE",
+
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
   "BASE_FIRE_PERMANENT_RUNE",
   "BASE_FIRE_PERMANENT_RUNE",
   "BASE_FIRE_PERMANENT_RUNE",
@@ -31,13 +38,16 @@ const starterDeck: CardNames[] = [
   "BASE_FIRE_PERMANENT_RUNE",
   "BASE_FIRE_PERMANENT_RUNE",
   "BASE_FIRE_SHIELD_HEAT_SHIELD",
-  "BASE_FIRE_WEAPON_FLAMING_SWORD",
-  "BASE_FIRE_CREATURE_PHOENIX",
-  "BASE_FIRE_CREATURE_PHOENIX",
-  "BASE_FIRE_CREATURE_PHOENIX",
-  "BASE_FIRE_CREATURE_PHOENIX",
-  "BASE_FIRE_CREATURE_PHOENIX",
-  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_SHIELD_HEAT_SHIELD",
+  "BASE_FIRE_SHIELD_HEAT_SHIELD",
+  "BASE_FIRE_SHIELD_HEAT_SHIELD",
+  // "BASE_FIRE_WEAPON_FLAMING_SWORD",
+  // "BASE_FIRE_CREATURE_PHOENIX",
+  // "BASE_FIRE_CREATURE_PHOENIX",
+  // "BASE_FIRE_CREATURE_PHOENIX",
+  // "BASE_FIRE_CREATURE_PHOENIX",
+  // "BASE_FIRE_CREATURE_PHOENIX",
+  // "BASE_FIRE_CREATURE_PHOENIX",
 ];
 
 export const GamePage = () => {
@@ -96,6 +106,8 @@ export const GamePage = () => {
     }
   }, [state.nextPhase, state.activePlayer, state.gameStarted, state.turn]);
 
+  console.log(state.playerField);
+
   useEffect(() => {
     if (state.nextPhase === "GAME_OVER") {
       console.log("Game Over", state);
@@ -128,6 +140,7 @@ export const GamePage = () => {
           <CoinToss
             startGame={() => {
               dispatch({ phase: "START_GAME" });
+              // gameBackground.play();
             }}
           />
         )}
@@ -147,15 +160,27 @@ export const GamePage = () => {
             </div>
             <div className="Player__area">
               <div className="Player__field">
-                {state.playerField.map((card) => (
-                  <Card card={card} isActive key={card.gameCardId} />
-                ))}
+                {state.playerField
+                  .filter(({ id }) => CARD_LIBRARY[id].type === "CREATURE")
+                  .map((card) => (
+                    <Card card={card} isActive key={card.gameCardId} />
+                  ))}
               </div>
               <div className="Player__main">
-                <div className="Player__mainRunes" />
+                <div className="Player__mainRunes">
+                  {state.playerField
+                    .filter(({ id }) => CARD_LIBRARY[id].type === "RUNE")
+                    .map((card) => (
+                      <Card card={card} isActive key={card.gameCardId} />
+                    ))}
+                </div>
                 <div className="Player__stats">
                   <div className="Player__statsShield">
-                    <ShieldStarIcon weight="bold" size={64} />
+                    {state.playerField.find((card) => CARD_LIBRARY[card.id].type === "SHIELD") ? (
+                      <Card card={state.playerField.find((card) => CARD_LIBRARY[card.id].type === "SHIELD")} isActive />
+                    ) : (
+                      <ShieldStarIcon weight="bold" size={64} />
+                    )}
                   </div>
                   <div className="Player__statsAttunement">
                     <div className="Player__statsHealth">
