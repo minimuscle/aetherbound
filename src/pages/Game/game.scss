@@ -66,6 +66,7 @@
         display: grid;
         grid-template-columns: 1fr 140px 1fr;
         align-content: end;
+        background-color: #6a4c20;
 
         &Shield,
         &Weapon {
@@ -118,6 +119,7 @@
           display: flex;
           align-items: center;
           gap: 10px;
+          background-color: #6a4c20;
 
           svg {
             color: rgb(255, 88, 88);

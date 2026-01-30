@@ -1,7 +1,8 @@
-import classNames from "classnames";
 import { use } from "react";
 import { GameContext } from "../../pages/Game/utils/context";
 import { CARD_LIBRARY } from "./library";
+import { CardTooltip } from "./tooltip";
+import { ELEMENTS, type Element } from "./types";
 
 /**********************************************************************************************************
  *   COMPONENT START
@@ -10,51 +11,45 @@ export const CardRunes = () => {
   const {
     state: { playerField },
   } = use(GameContext)!;
-  const runeCards = playerField.filter((card) => CARD_LIBRARY[card.id].type === "RUNE");
 
-  const fireCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "FIRE").length;
-  const waterCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "WATER").length;
-  const airCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "AIR").length;
-  const earthCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "EARTH").length;
-  const lightCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "LIGHT").length;
-  const darkCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "DARK").length;
-  const lifeCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "LIFE").length;
-  const deathCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "DEATH").length;
-  const aetherCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "AETHER").length;
-  const voidCards = runeCards.filter((card) => CARD_LIBRARY[card.id].element === "VOID").length;
+  const runeCounts = playerField.reduce<Record<Element, typeof playerField>>(
+    (acc, card) => {
+      const def = CARD_LIBRARY[card.id];
+      if (def.type !== "RUNE") return acc;
+
+      acc[def.element].push(card);
+      return acc;
+    },
+    {
+      FIRE: [],
+      WATER: [],
+      AIR: [],
+      EARTH: [],
+      LIGHT: [],
+      DARK: [],
+      LIFE: [],
+      DEATH: [],
+      AETHER: [],
+      VOID: [],
+    },
+  );
 
   return (
     <div className="Runes">
-      <div className={classNames("Runes__rune rune__fire", { "rune__fire--active": fireCards > 0 })}>
-        <div className="Runes__runeNumber">{fireCards}</div>
-      </div>
-      <div className={classNames("Runes__rune rune__water", { "rune__water--active": waterCards > 0 })}>
-        <div className="Runes__runeNumber">{waterCards || ""}</div>
-      </div>
-      <div className={classNames("Runes__rune rune__air", { "rune__air--active": airCards > 0 })}>
-        <div className="Runes__runeNumber">{airCards || ""}</div>
-      </div>
-      <div className={classNames("Runes__rune rune__earth", { "rune__earth--active": earthCards > 0 })}>
-        <div className="Runes__runeNumber">{earthCards || ""}</div>
-      </div>
-      <div className={classNames("Runes__rune rune__light", { "rune__light--active": lightCards > 0 })}>
-        <div className="Runes__runeNumber">{lightCards || ""}</div>
-      </div>
-      <div className={classNames("Runes__rune rune__dark", { "rune__dark--active": darkCards > 0 })}>
-        <div className="Runes__runeNumber">{darkCards || ""}</div>
-      </div>
-      <div className={classNames("Runes__rune rune__life", { "rune__life--active": lifeCards > 0 })}>
-        <div className="Runes__runeNumber">{lifeCards || ""}</div>
-      </div>
-      <div className={classNames("Runes__rune rune__death", { "rune__death--active": deathCards > 0 })}>
-        <div className="Runes__runeNumber">{deathCards || ""}</div>
-      </div>
-      <div className={classNames("Runes__rune rune__aether", { "rune__aether--active": aetherCards > 0 })}>
-        <div className="Runes__runeNumber">{aetherCards || ""}</div>
-      </div>
-      <div className={classNames("Runes__rune rune__void", { "rune__void--active": voidCards > 0 })}>
-        <div className="Runes__runeNumber">{voidCards || ""}</div>
-      </div>
+      {ELEMENTS.map((element) => {
+        const cards = runeCounts[element];
+        if (!cards.length) return null;
+
+        const firstCard = cards[0];
+
+        return (
+          <CardTooltip key={element} card={firstCard}>
+            <div className={`Runes__rune rune__${element.toLowerCase()}`}>
+              <div className="Runes__runeNumber">{cards.length}</div>
+            </div>
+          </CardTooltip>
+        );
+      })}
     </div>
   );
 };

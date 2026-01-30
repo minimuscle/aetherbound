@@ -11,16 +11,5 @@ export const CardPermanents = () => {
   } = use(GameContext)!;
   const runeCards = playerField.filter((card) => CARD_LIBRARY[card.id].type === "RUNE");
 
-  return (
-    <div className="Runes">
-      <div className="Runes__rune" />
-      <div className="Runes__rune" />
-      <div className="Runes__rune" />
-      <div className="Runes__rune" />
-      <div className="Runes__rune" />
-      <div className="Runes__rune" />
-      <div className="Runes__rune" />
-      <div className="Runes__rune" />
-    </div>
-  );
+  return <div className="Runes"></div>;
 };

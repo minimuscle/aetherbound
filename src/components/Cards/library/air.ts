@@ -1,0 +1,25 @@
+import type { CardDefinition, CardKey } from "../types";
+
+export const AIR_CARDS = {
+  /***** RUNE - 1 *****/
+  BASE_AIR_PERMANENT_RUNE: {
+    element: "AIR",
+    type: "RUNE",
+    name: "Air Rune",
+    description: "At the start of your turn, generate 1 Air.",
+    cost: 0,
+    effect: "GENERATE",
+    mana: {
+      amount: 1,
+      element: "AIR",
+    },
+  },
+
+  /***** CREATURES - 6 *****/
+
+  /***** SPELLS - 5 *****/
+
+  /***** SHIELD - 1 *****/
+
+  /***** WEAPON - 1 *****/
+} as const satisfies Record<CardKey, CardDefinition>;

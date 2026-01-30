@@ -1,4 +1,4 @@
-import { HeartIcon, ShieldStarIcon, SwordIcon } from "@phosphor-icons/react";
+import { HeartIcon, SwordIcon } from "@phosphor-icons/react";
 import { useEffect, useReducer, useRef } from "react";
 import exampleAttunement from "../../assets/images/exampleAttunement.webp";
 import { Button } from "../../components/Button";
@@ -6,6 +6,7 @@ import { Card } from "../../components/Cards";
 import { CARD_LIBRARY } from "../../components/Cards/library";
 import { CardPermanents } from "../../components/Cards/permanents";
 import { CardRunes } from "../../components/Cards/runes";
+import { CardShield } from "../../components/Cards/shield";
 import type { CardNames, Element } from "../../components/Cards/types";
 import { CoinToss } from "./coin";
 import "./game.scss";
@@ -16,19 +17,19 @@ import { generateRandomPlayer, shuffle } from "./utils/functions";
 import { phases } from "./utils/phases";
 
 const starterDeck: CardNames[] = [
-  // "BASE_FIRE_CREATURE_EMBER",
-  // "BASE_FIRE_CREATURE_EMBER",
-  // "BASE_FIRE_CREATURE_EMBER",
-  // "BASE_FIRE_CREATURE_EMBER",
-  // "BASE_FIRE_CREATURE_EMBER",
-  // "BASE_FIRE_CREATURE_EMBER",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_EMBER",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_PERMANENT_RUNE",
 
   "BASE_FIRE_PERMANENT_RUNE",
   "BASE_FIRE_PERMANENT_RUNE",
@@ -55,13 +56,13 @@ const starterDeck: CardNames[] = [
   "BASE_FIRE_SHIELD_HEAT_SHIELD",
   "BASE_FIRE_SHIELD_HEAT_SHIELD",
   "BASE_FIRE_SHIELD_HEAT_SHIELD",
-  // "BASE_FIRE_WEAPON_FLAMING_SWORD",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_WEAPON_FLAMING_SWORD",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
 ];
 
 export const GamePage = () => {
@@ -180,13 +181,8 @@ export const GamePage = () => {
                   <CardRunes />
                 </div>
                 <div className="Player__stats">
-                  <div className="Player__statsShield">
-                    {state.playerField.find((card) => CARD_LIBRARY[card.id].type === "SHIELD") ? (
-                      <Card card={state.playerField.find((card) => CARD_LIBRARY[card.id].type === "SHIELD")} isActive />
-                    ) : (
-                      <ShieldStarIcon weight="bold" size={64} />
-                    )}
-                  </div>
+                  <CardShield />
+
                   <div className="Player__statsAttunement">
                     <div className="Player__statsHealth">
                       <HeartIcon weight="fill" size={32} />

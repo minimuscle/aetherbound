@@ -1,8 +1,9 @@
 import { FireSimpleIcon } from "@phosphor-icons/react";
-import { use, useState } from "react";
+import { use } from "react";
 import { GameContext } from "../../pages/Game/utils/context";
 import "./cards.scss";
 import { CARD_LIBRARY } from "./library";
+import { CardTooltip } from "./tooltip";
 import type { GameCard } from "./types";
 
 /**********************************************************************************************************
@@ -20,15 +21,11 @@ type Card = React.FC<{
 export const Card: Card = ({ card, isActive, index }) => {
   const { gameCardId, id } = card;
   const cardData = CARD_LIBRARY[id];
-  const {
-    dispatch,
-    state: { playerHand },
-  } = use(GameContext)!;
-  const [isVisible, setIsVisible] = useState(false);
+  const { dispatch } = use(GameContext)!;
 
   /***** RENDER *****/
   return (
-    <>
+    <CardTooltip card={card}>
       {isActive ? (
         <div className="Card--active">
           <p className="Card--active__name">{cardData.name}</p>
@@ -39,17 +36,7 @@ export const Card: Card = ({ card, isActive, index }) => {
           )}
         </div>
       ) : (
-        <button
-          onClick={() => dispatch({ phase: "PLAY_CARD", card: gameCardId })}
-          className="Card"
-          onMouseEnter={() => setIsVisible(true)}
-          onMouseLeave={() => setIsVisible(false)}
-          // style={{
-          //   animationDelay: index
-          //     ? `${(index * 2) / Math.max(1, playerHand.length)}s`
-          //     : "0s",
-          // }}
-        >
+        <button onClick={() => dispatch({ phase: "PLAY_CARD", card: gameCardId })} className="Card">
           <p>{cardData.name}</p>
           <div className="Card__cost">
             {cardData.cost === 0 ? (
@@ -60,22 +47,8 @@ export const Card: Card = ({ card, isActive, index }) => {
               </>
             )}
           </div>
-          {isVisible && (
-            <div className="CardModal">
-              <p>{cardData.name}</p>
-              <p>Cost: {cardData.cost === 0 ? "FREE" : `${cardData.cost} ${cardData.element}`}</p>
-              <br />
-              {cardData.type === "CREATURE" && <p>Damage: {cardData.damage}</p>}
-              {cardData.type === "CREATURE" && <p>Health: {cardData.health}</p>}
-              {cardData.type === "RUNE" && (
-                <p>
-                  Generates: {cardData.mana.amount} {cardData.mana.element}
-                </p>
-              )}
-            </div>
-          )}
         </button>
       )}
-    </>
+    </CardTooltip>
   );
 };

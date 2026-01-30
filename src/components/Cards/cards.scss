@@ -58,6 +58,14 @@
     width: 100%;
     padding: 20px;
   }
+
+  &Tooltip.MuiTooltip-tooltip {
+    background-color: #fff;
+    color: black;
+    height: 300px;
+    width: 200px;
+    font-size: 18px;
+  }
 }
 
 .Runes {
@@ -65,6 +73,7 @@
   flex-wrap: wrap-reverse;
   justify-content: end;
   gap: 10px;
+  background-color: #6a4c20;
 
   &__rune {
     border: 3px solid #d5b864;
@@ -90,83 +99,65 @@
 
     &.rune {
       &__fire {
-        background-color: #552e2e;
-
-        &--active {
-          background-color: #f85050;
-        }
+        background-color: #f85050;
       }
 
       &__water {
-        background-color: #2e4055;
-
-        &--active {
-          background-color: #50c3f8;
-        }
+        background-color: #50c3f8;
       }
       &__air {
-        background-color: #2e5540;
-
-        &--active {
-          background-color: #c3f8c3;
-        }
+        background-color: #c3f8c3;
       }
 
       &__earth {
-        background-color: #55462e;
-
-        &--active {
-          background-color: #b67617;
-        }
+        background-color: #b67617;
       }
 
       &__light {
-        background-color: #747474;
-
-        &--active {
-          background-color: #fdffe9;
-        }
+        background-color: #fdffe9;
       }
 
       &__dark {
-        background-color: #494949;
-
-        &--active {
-          background-color: #131313;
-        }
+        background-color: #131313;
       }
 
       &__life {
-        background-color: #487440;
-
-        &--active {
-          background-color: #3b882b;
-        }
+        background-color: #3b882b;
       }
 
       &__death {
-        background-color: #5c4074;
-
-        &--active {
-          background-color: #8715f2;
-        }
+        background-color: #8715f2;
       }
 
       &__aether {
-        background-color: #4e4001;
-
-        &--active {
-          background-color: #ffd412;
-        }
+        background-color: #ffd412;
       }
 
       &__void {
-        background-color: #391d3c;
-
-        &--active {
-          background-color: #c61bd5;
-        }
+        background-color: #c61bd5;
       }
     }
+  }
+}
+
+.Shield {
+  border: 5px solid #d5b864;
+  background-color: #7f6a2b;
+  color: #6a4c20;
+  border-radius: 100%;
+  height: 75px;
+  width: 75px;
+  margin-top: auto;
+  margin-bottom: 65px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  &--active {
+    background-color: #50c3f8;
+    width: 100%;
+    height: 100%;
   }
 }

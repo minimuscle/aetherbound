@@ -1,13 +1,7 @@
 import type { Tagged } from "type-fest";
 import type { CARD_LIBRARY } from "./library";
 
-export type CardType =
-  | "CREATURE"
-  | "SPELL"
-  | "PERMANENT"
-  | "WEAPON"
-  | "SHIELD"
-  | "RUNE";
+export type CardType = "CREATURE" | "SPELL" | "PERMANENT" | "WEAPON" | "SHIELD" | "RUNE";
 type CardEffects = "ATTACK" | "GENERATE" | "PROTECT";
 export type GameCardId = Tagged<"GameCardId", number>;
 
@@ -54,16 +48,7 @@ export type GameCard = {
 };
 
 export type CardNames = keyof typeof CARD_LIBRARY;
-export type Element =
-  | "FIRE"
-  | "EARTH"
-  | "WATER"
-  | "AIR"
-  | "LIGHT"
-  | "DARK"
-  | "LIFE"
-  | "DEATH"
-  | "AETHER"
-  | "VOID";
+export const ELEMENTS = ["FIRE", "EARTH", "WATER", "AIR", "LIGHT", "DARK", "LIFE", "DEATH", "AETHER", "VOID"] as const;
+export type Element = (typeof ELEMENTS)[number];
 export type Expansion = "BASE";
 export type CardKey = `${Expansion}_${Element}_${CardType}_${string}`;
