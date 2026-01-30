@@ -1,16 +1,26 @@
 import { BoulesIcon, DropIcon, FireSimpleIcon, MoonIcon, PlantIcon, ShovelIcon, SkullIcon, SparkleIcon, SunIcon, WindIcon } from "@phosphor-icons/react";
+import type { Element } from "components/Cards/types";
+import { GameContext } from "pages/Game/utils/context";
 import { use } from "react";
-import type { Element } from "../../../components/Cards/types";
-import { GameContext } from "../utils/context";
+import type { Player } from "utils/types/game";
 import "./mana.scss";
+
+/**********************************************************************************************************
+ *   TYPE DEFINITIONS
+ **********************************************************************************************************/
+type ManaSection = React.FC<{
+  player: Player;
+}>;
 
 /**********************************************************************************************************
  *   COMPONENT START
  **********************************************************************************************************/
-export const ManaSection = () => {
+export const ManaSection: ManaSection = ({ player }) => {
   /***** HOOKS *****/
   const {
-    state: { mana },
+    state: {
+      [player.toLowerCase() as "player" | "enemy"]: { mana },
+    },
   } = use(GameContext)!;
 
   const Icons: Record<Element, React.ReactNode> = {

@@ -1,8 +1,8 @@
 import { CrownSimpleIcon, SkullIcon } from "@phosphor-icons/react";
 import classNames from "classnames";
+import { Button } from "components/Button";
+import { GameContext } from "pages/Game/utils/context";
 import React, { use } from "react";
-import { Button } from "../../../components/Button";
-import { GameContext } from "../utils/context";
 import "./coin.scss";
 
 /**********************************************************************************************************
@@ -44,10 +44,7 @@ export const CoinToss: CoinToss = ({ startGame }) => {
           </div>
         </div>
         <div className="coinToss__button">
-          <p className="coinTossText">
-            {activePlayer === "PLAYER" ? "You have" : "The Enemy has"} won the
-            coin toss
-          </p>
+          <p className="coinTossText">{activePlayer === "PLAYER" ? "You have" : "The Enemy has"} won the coin toss</p>
           <Button onClick={startGame} className="coinTossClose">
             Start Game
           </Button>

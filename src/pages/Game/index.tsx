@@ -1,4 +1,5 @@
 import { HeartIcon, SwordIcon } from "@phosphor-icons/react";
+import { CardShield } from "components/Cards/shield";
 import { useEffect, useReducer, useRef } from "react";
 import exampleAttunement from "../../assets/images/exampleAttunement.webp";
 import { Button } from "../../components/Button";
@@ -6,15 +7,14 @@ import { Card } from "../../components/Cards";
 import { CARD_LIBRARY } from "../../components/Cards/library";
 import { CardPermanents } from "../../components/Cards/permanents";
 import { CardRunes } from "../../components/Cards/runes";
-import { CardShield } from "../../components/Cards/shield";
 import type { CardNames, Element } from "../../components/Cards/types";
-import { CoinToss } from "./coin";
+import { CoinToss } from "./components/coin";
 import "./game.scss";
-import { ManaSection } from "./mana";
+import { phases } from "./phases";
+import { ManaSection } from "./sections/mana";
 import { cardDraw } from "./utils/audio";
 import { GameContext } from "./utils/context";
 import { generateRandomPlayer, shuffle } from "./utils/functions";
-import { phases } from "./utils/phases";
 
 const starterDeck: CardNames[] = [
   "BASE_FIRE_CREATURE_EMBER",
@@ -71,29 +71,49 @@ export const GamePage = () => {
     activePlayer: generateRandomPlayer(),
     gameStarted: false,
     showCoinToss: true,
-    playerDeck: shuffle(starterDeck),
-    playerHand: [],
-    playerField: [],
+    player: {
+      deck: shuffle(starterDeck),
+      hand: [],
+      field: [],
+      health: 100,
+      healthMax: 100,
+      attunement: "FIRE" as unknown as Element,
+      mana: {
+        FIRE: 0,
+        WATER: 0,
+        EARTH: 0,
+        AIR: 0,
+        LIGHT: 0,
+        DARK: 0,
+        LIFE: 0,
+        DEATH: 0,
+        AETHER: 0,
+        VOID: 0,
+      },
+    },
+    enemy: {
+      deck: shuffle(starterDeck),
+      hand: [],
+      field: [],
+      health: 100,
+      healthMax: 100,
+      attunement: "FIRE" as unknown as Element,
+      mana: {
+        FIRE: 0,
+        WATER: 0,
+        EARTH: 0,
+        AIR: 0,
+        LIGHT: 0,
+        DARK: 0,
+        LIFE: 0,
+        DEATH: 0,
+        AETHER: 0,
+        VOID: 0,
+      },
+    },
+
     turn: 0,
     nextPhase: "START_GAME",
-    playerHealth: 100,
-    playerAttunement: "FIRE" as unknown as Element,
-    enemyHealth: 100,
-    enemyDeck: shuffle(starterDeck),
-    enemyHand: [],
-    enemyField: [],
-    mana: {
-      FIRE: 0,
-      WATER: 0,
-      EARTH: 0,
-      AIR: 0,
-      LIGHT: 0,
-      DARK: 0,
-      LIFE: 0,
-      DEATH: 0,
-      AETHER: 0,
-      VOID: 0,
-    },
   });
   const phaseKeyRef = useRef("");
 
@@ -106,22 +126,16 @@ export const GamePage = () => {
     phaseKeyRef.current = key;
 
     if (state.activePlayer === "PLAYER") {
-      console.log("Starting turn for player: ", state.activePlayer);
-      console.log("Drawing Card");
       dispatch({ phase: "PLAYER_TURN" });
       cardDraw.play();
     }
 
     if (state.activePlayer === "ENEMY") {
-      console.log("Starting Enemy Turn");
       setTimeout(() => {
-        console.log("turn finished");
         dispatch({ phase: "ENEMY_TURN" });
       }, 1000);
     }
   }, [state.nextPhase, state.activePlayer, state.gameStarted, state.turn]);
-
-  console.log(state.playerField);
 
   useEffect(() => {
     if (state.nextPhase === "GAME_OVER") {
@@ -162,15 +176,26 @@ export const GamePage = () => {
 
         <div className="Game__board">
           <div className="Game__board--enemy">
-            <p>Enemy Health: {state.enemyHealth} / 100</p>
+            <div className="Player__cards">
+              <div className="Player__cardsDeck">
+                {state.player.hand.map((card, index) => (
+                  <Card card={card} key={card.gameCardId} index={index} />
+                ))}
+              </div>
+            </div>
+
+            <p>Enemy Health: {state.enemy.health} / 100</p>
+            <div className="Player__mana">
+              <ManaSection player="ENEMY" />
+            </div>
           </div>
           <div className="Game__board--player">
             <div className="Player__mana">
-              <ManaSection />
+              <ManaSection player="PLAYER" />
             </div>
             <div className="Player__area">
               <div className="Player__field">
-                {state.playerField
+                {state.player.field
                   .filter(({ id }) => CARD_LIBRARY[id].type === "CREATURE")
                   .map((card) => (
                     <Card card={card} isActive key={card.gameCardId} />
@@ -178,15 +203,15 @@ export const GamePage = () => {
               </div>
               <div className="Player__main">
                 <div className="Player__mainRunes">
-                  <CardRunes />
+                  <CardRunes player="PLAYER" />
                 </div>
                 <div className="Player__stats">
-                  <CardShield />
+                  <CardShield player="PLAYER" />
 
                   <div className="Player__statsAttunement">
                     <div className="Player__statsHealth">
                       <HeartIcon weight="fill" size={32} />
-                      {state.playerHealth} / 100
+                      {state.player.health} / 100
                     </div>
                     <img src={exampleAttunement} alt="" />
                     {state.activePlayer === "PLAYER" && state.gameStarted && state.nextPhase !== "GAME_OVER" && (
@@ -200,34 +225,20 @@ export const GamePage = () => {
                   </div>
                 </div>
                 <div className="Player__mainPermanents">
-                  <CardPermanents />
-                  <div className="Player__cardsTally">{state.playerDeck.length} Cards</div>
+                  <CardPermanents player="PLAYER" />
+                  <div className="Player__cardsTally">{state.player.deck.length} Cards</div>
                 </div>
               </div>
             </div>
             <div className="Player__cards">
               <div className="Player__cardsDeck">
-                {state.playerHand.map((card, index) => (
+                {state.player.hand.map((card, index) => (
                   <Card card={card} key={card.gameCardId} index={index} />
                 ))}
               </div>
             </div>
           </div>
         </div>
-
-        {/*
-
-        <p>
-          Active Cards:{" "}
-          {state.playerField.map((card) => (
-            <Card card={card} isActive key={card.gameCardId} />
-          ))}
-        </p>
-        <p>Cards in Hand: </p>
-        {state.playerHand.map((card, index) => (
-          <Card card={card} key={card.gameCardId} index={index} />
-        ))}
-        <p>Deck Remaining: {state.playerDeck.length}</p> */}
       </div>
     </GameContext>
   );

@@ -1,17 +1,27 @@
 import { ShieldStarIcon } from "@phosphor-icons/react";
 import { use } from "react";
+import type { Player } from "utils/types/game";
 import { GameContext } from "../../pages/Game/utils/context";
 import { CARD_LIBRARY } from "./library";
 import { CardTooltip } from "./tooltip";
 
 /**********************************************************************************************************
+ *   TYPE DEFINITIONS
+ **********************************************************************************************************/
+type CardShield = React.FC<{
+  player: Player;
+}>;
+
+/**********************************************************************************************************
  *   COMPONENT START
  **********************************************************************************************************/
-export const CardShield = () => {
+export const CardShield: CardShield = ({ player }) => {
   const {
-    state: { playerField },
+    state: {
+      [player.toLowerCase() as "player" | "enemy"]: { field },
+    },
   } = use(GameContext)!;
-  const shieldCard = playerField.filter((card) => CARD_LIBRARY[card.id].type === "SHIELD")[0];
+  const shieldCard = field.filter((card) => CARD_LIBRARY[card.id].type === "SHIELD")[0];
 
   return (
     <div className="Shield">

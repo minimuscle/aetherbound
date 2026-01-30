@@ -18,7 +18,7 @@ type Card = React.FC<{
 /**********************************************************************************************************
  *   COMPONENT START
  **********************************************************************************************************/
-export const Card: Card = ({ card, isActive, index }) => {
+export const Card: Card = ({ card, isActive }) => {
   const { gameCardId, id } = card;
   const cardData = CARD_LIBRARY[id];
   const { dispatch } = use(GameContext)!;

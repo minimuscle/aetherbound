@@ -1,18 +1,28 @@
 import { use } from "react";
+import type { Player } from "utils/types/game";
 import { GameContext } from "../../pages/Game/utils/context";
 import { CARD_LIBRARY } from "./library";
 import { CardTooltip } from "./tooltip";
 import { ELEMENTS, type Element } from "./types";
 
 /**********************************************************************************************************
+ *   TYPE DEFINITIONS
+ **********************************************************************************************************/
+type CardRunes = React.FC<{
+  player: Player;
+}>;
+
+/**********************************************************************************************************
  *   COMPONENT START
  **********************************************************************************************************/
-export const CardRunes = () => {
+export const CardRunes: CardRunes = ({ player }) => {
   const {
-    state: { playerField },
+    state: {
+      [player.toLowerCase() as "player" | "enemy"]: { field },
+    },
   } = use(GameContext)!;
 
-  const runeCounts = playerField.reduce<Record<Element, typeof playerField>>(
+  const runeCounts = field.reduce<Record<Element, typeof field>>(
     (acc, card) => {
       const def = CARD_LIBRARY[card.id];
       if (def.type !== "RUNE") return acc;

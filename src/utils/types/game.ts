@@ -1,2 +1,33 @@
+import type { Element, GameCard, GameCardId } from "components/Cards/types";
+
 export type Player = "PLAYER" | "ENEMY";
 export type Page = "GAME" | "MAIN";
+
+type GameInfo = {
+  deck: GameCard[];
+  hand: GameCard[];
+  field: GameCard[];
+  health: number;
+  healthMax: number;
+  attunement: Element;
+  mana: Record<Element, number>;
+};
+
+export type State = {
+  gameStarted: boolean;
+  showCoinToss: boolean;
+  nextPhase: Phase;
+  turn: number;
+  activePlayer: Player;
+  player: GameInfo;
+  enemy: GameInfo;
+};
+
+export type Action = {
+  phase: Exclude<Phase, ["TURN_START", "GAME_OVER"]>;
+  card?: GameCardId;
+};
+
+export type Phase = "START_GAME" | "END_TURN" | "PLAYER_TURN" | "ENEMY_TURN" | "TURN_START" | "PLAY_CARD" | "GAME_OVER";
+
+export type Phases = (state: State, action: Action) => State;

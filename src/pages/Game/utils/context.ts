@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { Action, State } from "./phases";
+import type { Action, State } from "utils/types/game";
 
 /**********************************************************************************************************
  *   TYPE DEFINITIONS

@@ -1,8 +1,4 @@
-import type {
-  CardNames,
-  GameCard,
-  GameCardId,
-} from "../../../components/Cards/types";
+import type { CardNames, GameCard, GameCardId } from "components/Cards/types";
 
 export function shuffle(arr: CardNames[]) {
   const copy = [...arr];
@@ -20,17 +16,11 @@ export function shuffle(arr: CardNames[]) {
   }));
 }
 
-export function drawOne(deck: GameCard[]) {
-  const [card, ...rest] = deck;
-  return { deck: rest, card };
-}
-
-export function drawSix(deck: GameCard[]) {
-  const cards = deck.slice(0, 6);
-  const rest = deck.slice(6);
+export function drawCard(deck: GameCard[], numberOfCards = 1) {
+  const cards = deck.slice(0, numberOfCards);
+  const rest = deck.slice(numberOfCards);
 
   return { deck: rest, cards };
 }
 
-export const generateRandomPlayer = () =>
-  Math.random() < 0.5 ? "PLAYER" : "ENEMY";
+export const generateRandomPlayer = () => (Math.random() < 0.5 ? "PLAYER" : "ENEMY");
