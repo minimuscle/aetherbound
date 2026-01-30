@@ -4,9 +4,12 @@ import exampleAttunement from "../../assets/images/exampleAttunement.webp";
 import { Button } from "../../components/Button";
 import { Card } from "../../components/Cards";
 import { CARD_LIBRARY } from "../../components/Cards/library";
+import { CardPermanents } from "../../components/Cards/permanents";
+import { CardRunes } from "../../components/Cards/runes";
 import type { CardNames, Element } from "../../components/Cards/types";
 import { CoinToss } from "./coin";
 import "./game.scss";
+import { ManaSection } from "./mana";
 import { cardDraw } from "./utils/audio";
 import { GameContext } from "./utils/context";
 import { generateRandomPlayer, shuffle } from "./utils/functions";
@@ -27,6 +30,17 @@ const starterDeck: CardNames[] = [
   // "BASE_FIRE_CREATURE_RED_DRAGON",
   // "BASE_FIRE_PERMANENT_RUNE",
 
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
+  "BASE_FIRE_PERMANENT_RUNE",
   "BASE_FIRE_PERMANENT_RUNE",
   "BASE_FIRE_PERMANENT_RUNE",
   "BASE_FIRE_PERMANENT_RUNE",
@@ -151,12 +165,7 @@ export const GamePage = () => {
           </div>
           <div className="Game__board--player">
             <div className="Player__mana">
-              {Object.entries(state.mana).map(([type, amount]) => (
-                <p>
-                  {type}: {amount}
-                </p>
-              ))}
-              <div className="Player__cardsTally">{state.playerDeck.length} Cards</div>
+              <ManaSection />
             </div>
             <div className="Player__area">
               <div className="Player__field">
@@ -168,11 +177,7 @@ export const GamePage = () => {
               </div>
               <div className="Player__main">
                 <div className="Player__mainRunes">
-                  {state.playerField
-                    .filter(({ id }) => CARD_LIBRARY[id].type === "RUNE")
-                    .map((card) => (
-                      <Card card={card} isActive key={card.gameCardId} />
-                    ))}
+                  <CardRunes />
                 </div>
                 <div className="Player__stats">
                   <div className="Player__statsShield">
@@ -198,7 +203,10 @@ export const GamePage = () => {
                     <SwordIcon weight="bold" size={64} />
                   </div>
                 </div>
-                <div className="Player__mainPermanents" />
+                <div className="Player__mainPermanents">
+                  <CardPermanents />
+                  <div className="Player__cardsTally">{state.playerDeck.length} Cards</div>
+                </div>
               </div>
             </div>
             <div className="Player__cards">

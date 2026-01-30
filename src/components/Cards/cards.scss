@@ -59,3 +59,114 @@
     padding: 20px;
   }
 }
+
+.Runes {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: end;
+  gap: 10px;
+
+  &__rune {
+    border: 3px solid #d5b864;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    position: relative;
+
+    &Number {
+      position: absolute;
+      bottom: -15px;
+      right: -15px;
+      border: 3px solid #d5b864;
+      height: 25px;
+      width: 25px;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      background-color: #000;
+    }
+
+    &.rune {
+      &__fire {
+        background-color: #552e2e;
+
+        &--active {
+          background-color: #f85050;
+        }
+      }
+
+      &__water {
+        background-color: #2e4055;
+
+        &--active {
+          background-color: #50c3f8;
+        }
+      }
+      &__air {
+        background-color: #2e5540;
+
+        &--active {
+          background-color: #c3f8c3;
+        }
+      }
+
+      &__earth {
+        background-color: #55462e;
+
+        &--active {
+          background-color: #b67617;
+        }
+      }
+
+      &__light {
+        background-color: #747474;
+
+        &--active {
+          background-color: #fdffe9;
+        }
+      }
+
+      &__dark {
+        background-color: #494949;
+
+        &--active {
+          background-color: #131313;
+        }
+      }
+
+      &__life {
+        background-color: #487440;
+
+        &--active {
+          background-color: #3b882b;
+        }
+      }
+
+      &__death {
+        background-color: #5c4074;
+
+        &--active {
+          background-color: #8715f2;
+        }
+      }
+
+      &__aether {
+        background-color: #4e4001;
+
+        &--active {
+          background-color: #ffd412;
+        }
+      }
+
+      &__void {
+        background-color: #391d3c;
+
+        &--active {
+          background-color: #c61bd5;
+        }
+      }
+    }
+  }
+}
