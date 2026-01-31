@@ -3,29 +3,33 @@ import { runCardTrigger } from "pages/Game/utils/functions";
 import type { State } from "utils/types/game";
 
 export const endTurn = (state: State): State => {
-  const playerFieldDamage = state.player.field.reduce((acc, card) => {
+  const activePlayer = state.activePlayer === "PLAYER" ? state.player : state.enemy;
+  const otherPlayer = state.activePlayer === "PLAYER" ? state.enemy : state.player;
+
+  const fieldDamage = activePlayer.field.reduce((acc, card) => {
     const base = CARD_LIBRARY[card.id]?.damage ?? 0;
     const dmg = card.damage ?? base;
     return acc + dmg;
   }, 0);
 
-  const newEnemyHealth = state.enemy.health - playerFieldDamage < 0 ? 0 : state.enemy.health - playerFieldDamage;
+  const newOtherHealth = otherPlayer.health - fieldDamage < 0 ? 0 : otherPlayer.health - fieldDamage;
 
   let next: State = {
     ...state,
-    activePlayer: "ENEMY",
-    enemy: {
-      ...state.enemy,
-      health: newEnemyHealth,
-    },
-    nextPhase: newEnemyHealth <= 0 ? "GAME_OVER" : "TURN_START",
-    player: {
-      ...state.player,
+    activePlayer: state.activePlayer === "PLAYER" ? "ENEMY" : "PLAYER",
+    [state.activePlayer.toLowerCase() as "player" | "enemy"]: {
+      ...activePlayer,
       mana: {
-        ...state.player.mana,
-        [state.player.attunement]: state.player.mana[state.player.attunement] + 1,
+        ...activePlayer.mana,
+        [activePlayer.attunement]: activePlayer.mana[activePlayer.attunement] + 1,
       },
     },
+    [state.activePlayer === "PLAYER" ? "enemy" : "player"]: {
+      ...otherPlayer,
+      health: newOtherHealth,
+    },
+    nextPhase: newOtherHealth <= 0 ? "GAME_OVER" : "TURN_START",
+    turn: state.turn + 1,
   };
 
   const owner = state.activePlayer;

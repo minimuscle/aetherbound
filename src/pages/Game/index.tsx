@@ -25,18 +25,12 @@ const starterDeck: CardNames[] = [
   "BASE_FIRE_CREATURE_EMBER",
   "BASE_FIRE_CREATURE_EMBER",
   "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
-  // "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RED_DRAGON",
   // "BASE_FIRE_PERMANENT_RUNE",
 
   "BASE_FIRE_PERMANENT_RUNE",
@@ -65,12 +59,12 @@ const starterDeck: CardNames[] = [
   // "BASE_FIRE_SHIELD_HEAT_SHIELD",
   // "BASE_FIRE_SHIELD_HEAT_SHIELD",
   // "BASE_FIRE_WEAPON_FLAMING_SWORD",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
-  // "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
+  "BASE_FIRE_CREATURE_PHOENIX",
 ];
 
 export const GamePage = () => {
@@ -125,23 +119,24 @@ export const GamePage = () => {
   });
   const phaseKeyRef = useRef("");
 
+  console.log("nextPhase", state.nextPhase, state);
+
   useEffect(() => {
     if (!state.gameStarted) return;
+    console.log("gameStarted", state.gameStarted);
     if (state.nextPhase !== "TURN_START") return;
 
     const key = `${state.turn}-${state.activePlayer}`;
+    console.log("key", key, phaseKeyRef.current);
     if (phaseKeyRef.current === key) return;
     phaseKeyRef.current = key;
 
     if (state.activePlayer === "PLAYER") {
-      dispatch({ phase: "PLAYER_TURN" });
+      dispatch({ phase: "START_TURN" });
       cardDraw.play();
     }
 
     if (state.activePlayer === "ENEMY") {
-      // setTimeout(() => {
-
-      // }, 1000);
       enemyTurn(state, dispatch);
     }
   }, [state]);
@@ -208,6 +203,10 @@ export const GamePage = () => {
                   <div className="Enemy__statsWeapon">
                     <SwordIcon weight="bold" size={64} />
                   </div>
+                </div>
+                <div className="Player__mainPermanents">
+                  <CardPermanents player="ENEMY" />
+                  <div className="Player__cardsTally">{state.enemy.deck.length} Cards</div>
                 </div>
               </div>
               <div className="Enemy__field">
