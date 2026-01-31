@@ -15,6 +15,17 @@ export const EARTH_CARDS = {
   },
 
   /***** CREATURES - 6 *****/
+  BASE_EARTH_CREATURE_EMERALD_ELEMENTAL: {
+    element: "EARTH",
+    type: "CREATURE",
+    name: "Emerald Elemental",
+    description: "Ancient stone hardened by emerald veins.",
+    cost: 10,
+    price: 100,
+    damage: 10,
+    health: 6,
+    triggers: {},
+  },
 
   /***** SPELLS - 5 *****/
 

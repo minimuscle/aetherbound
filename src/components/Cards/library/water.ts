@@ -15,6 +15,17 @@ export const WATER_CARDS = {
   },
 
   /***** CREATURES - 6 *****/
+  BASE_WATER_CREATURE_SAPPHIRE_ELEMENTAL: {
+    element: "WATER",
+    type: "CREATURE",
+    name: "Sapphire Elemental",
+    description: "Flowing crystal that crashes like the tide.",
+    cost: 10,
+    price: 100,
+    damage: 10,
+    health: 6,
+    triggers: {},
+  },
 
   /***** SPELLS - 5 *****/
 

@@ -15,6 +15,17 @@ export const DEATH_CARDS = {
   },
 
   /***** CREATURES - 6 *****/
+  BASE_DEATH_CREATURE_AMETHYST_ELEMENTAL: {
+    element: "DEATH",
+    type: "CREATURE",
+    name: "Amethyst Elemental",
+    description: "Cold crystal steeped in decay.",
+    cost: 10,
+    price: 100,
+    damage: 10,
+    health: 6,
+    triggers: {},
+  },
 
   /***** SPELLS - 5 *****/
 

@@ -15,15 +15,15 @@ export const FIRE_CARDS = {
   },
 
   /***** CREATURES - 6 *****/
-  BASE_FIRE_CREATURE_RED_DRAGON: {
+  BASE_FIRE_CREATURE_RUBY_ELEMENTAL: {
     element: "FIRE",
     type: "CREATURE",
-    name: "Red Dragon",
-    description: "An ancient apex predator of living flame.",
+    name: "Ruby Elemental",
+    description: "A living inferno bound in molten crystal.",
     cost: 10,
-    price: 10,
-    damage: 12,
-    health: 10,
+    price: 100,
+    damage: 10,
+    health: 6,
     triggers: {},
   },
   BASE_FIRE_CREATURE_EMBER: {

@@ -15,6 +15,17 @@ export const AIR_CARDS = {
   },
 
   /***** CREATURES - 6 *****/
+  BASE_AIR_CREATURE_TOPAZ_ELEMENTAL: {
+    element: "AIR",
+    type: "CREATURE",
+    name: "Topaz Elemental",
+    description: "A storm sealed in golden crystal.",
+    cost: 10,
+    price: 100,
+    damage: 10,
+    health: 6,
+    triggers: {},
+  },
 
   /***** SPELLS - 5 *****/
 

@@ -15,6 +15,17 @@ export const LIGHT_CARDS = {
   },
 
   /***** CREATURES - 6 *****/
+  BASE_LIGHT_CREATURE_DIAMOND_ELEMENTAL: {
+    element: "LIGHT",
+    type: "CREATURE",
+    name: "DIAMON Elemental",
+    description: "A radiant prism of living light.",
+    cost: 10,
+    price: 100,
+    damage: 10,
+    health: 6,
+    triggers: {},
+  },
 
   /***** SPELLS - 5 *****/
 

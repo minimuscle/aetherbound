@@ -15,6 +15,17 @@ export const VOID_CARDS = {
   },
 
   /***** CREATURES - 6 *****/
+  BASE_VOID_CREATURE_OBSIDIAN_ELEMENTAL: {
+    element: "VOID",
+    type: "CREATURE",
+    name: "Obsidian Elemental",
+    description: "Starless crystal that consumes all.",
+    cost: 10,
+    price: 100,
+    damage: 10,
+    health: 6,
+    triggers: {},
+  },
 
   /***** SPELLS - 5 *****/
 

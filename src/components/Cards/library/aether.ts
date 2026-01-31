@@ -15,6 +15,17 @@ export const AETHER_CARDS = {
   },
 
   /***** CREATURES - 6 *****/
+  BASE_AETHER_CREATURE_OPAL_ELEMENTAL: {
+    element: "AETHER",
+    type: "CREATURE",
+    name: "Opal Elemental",
+    description: "Iridescent crystal drifting beyond reality.",
+    cost: 10,
+    price: 100,
+    damage: 10,
+    health: 6,
+    triggers: {},
+  },
 
   /***** SPELLS - 5 *****/
 
