@@ -175,19 +175,16 @@ export const GamePage = () => {
           <CoinToss
             startGame={() => {
               dispatch({ phase: "START_GAME" });
-              // gameBackground.play();
             }}
           />
         )}
 
         <div className="Game__board">
           <div className="Game__board--enemy">
-            <div className="Player__cards">
-              <div className="Player__cardsDeck">
-                {state.player.hand.map((card, index) => (
-                  <Card card={card} key={card.gameCardId} index={index} />
-                ))}
-              </div>
+            <div className="Enemy__cards">
+              {state.enemy.hand.map((card, index) => (
+                <Card card={card} key={card.gameCardId} index={index} player="ENEMY" />
+              ))}
             </div>
 
             <p>Enemy Health: {state.enemy.health} / 100</p>
@@ -237,11 +234,9 @@ export const GamePage = () => {
               </div>
             </div>
             <div className="Player__cards">
-              <div className="Player__cardsDeck">
-                {state.player.hand.map((card, index) => (
-                  <Card card={card} key={card.gameCardId} index={index} />
-                ))}
-              </div>
+              {state.player.hand.map((card, index) => (
+                <Card card={card} key={card.gameCardId} index={index} />
+              ))}
             </div>
           </div>
         </div>

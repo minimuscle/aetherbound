@@ -1,5 +1,6 @@
 import { FireSimpleIcon } from "@phosphor-icons/react";
 import { use } from "react";
+import type { Player } from "utils/types/game";
 import { GameContext } from "../../pages/Game/utils/context";
 import "./cards.scss";
 import { CARD_LIBRARY } from "./library";
@@ -13,17 +14,20 @@ type Card = React.FC<{
   card: GameCard;
   isActive?: boolean;
   index?: number;
+  player: Player;
 }>;
 
 /**********************************************************************************************************
  *   COMPONENT START
  **********************************************************************************************************/
-export const Card: Card = ({ card, isActive }) => {
+export const Card: Card = ({ card, isActive, player }) => {
   const { gameCardId, id, damage, health } = card;
   const cardData = CARD_LIBRARY[id];
   const { dispatch } = use(GameContext)!;
 
+  console.log(import.meta.env.VITE_DEBUG);
   /***** RENDER *****/
+  if (player === "ENEMY" && !import.meta.env.VITE_DEBUG) return <div className="Card--hidden" />;
   return (
     <CardTooltip card={card}>
       {isActive ? (

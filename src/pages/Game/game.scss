@@ -22,7 +22,8 @@
       grid-template-columns: 250px 1fr 225px;
     }
 
-    .Player {
+    .Player,
+    .Enemy {
       &__mana {
         // border: 1px solid #d5b864;
         align-content: end;
@@ -35,11 +36,8 @@
 
       &__cards {
         border: 1px solid #d5b864;
-
-        &Deck {
-          display: flex;
-          flex-direction: column;
-        }
+        display: flex;
+        flex-direction: column;
       }
 
       &__field {
@@ -143,6 +141,9 @@
           font-size: 14px;
         }
       }
+    }
+
+    .Enemy {
     }
   }
 }
