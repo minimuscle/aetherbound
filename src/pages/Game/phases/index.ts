@@ -18,12 +18,6 @@ export const phases: Phases = (state, action): State => {
       return playCard(state, action);
     case "END_TURN":
       return endTurn(state);
-    case "ENEMY_TURN":
-      return {
-        ...state,
-        activePlayer: "PLAYER",
-        nextPhase: "TURN_START",
-      };
     case "RESTART_GAME":
       return restartGame();
     default:

@@ -1,6 +1,7 @@
 import { HeartIcon, SwordIcon } from "@phosphor-icons/react";
 import { CardShield } from "components/Cards/variantDesigns/shield";
 import { GameOver } from "pages/Game/components/gameOver";
+import { enemyTurn } from "pages/Game/phases/enemyTurn";
 import { useEffect, useReducer, useRef } from "react";
 import exampleAttunement from "../../assets/images/exampleAttunement.webp";
 import { Button } from "../../components/Button";
@@ -106,7 +107,7 @@ export const GamePage = () => {
       healthMax: 100,
       attunement: "FIRE",
       mana: {
-        FIRE: 0,
+        FIRE: 9,
         WATER: 0,
         EARTH: 0,
         AIR: 0,
@@ -138,11 +139,12 @@ export const GamePage = () => {
     }
 
     if (state.activePlayer === "ENEMY") {
-      setTimeout(() => {
-        dispatch({ phase: "ENEMY_TURN" });
-      }, 1000);
+      // setTimeout(() => {
+
+      // }, 1000);
+      enemyTurn(state, dispatch);
     }
-  }, [state.nextPhase, state.activePlayer, state.gameStarted, state.turn]);
+  }, [state]);
 
   useEffect(() => {
     if (state.nextPhase === "GAME_OVER") {
