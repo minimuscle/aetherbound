@@ -34,7 +34,7 @@ export const FIRE_CARDS = {
     cost: 1,
     price: 50,
     damage: 1,
-    health: 1,
+    health: 2,
     triggers: {
       onTurnEnd: [{ id: "stats.modify", args: { stat: "damage", amount: 1 } }],
     },
