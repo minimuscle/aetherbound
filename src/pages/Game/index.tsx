@@ -186,12 +186,39 @@ export const GamePage = () => {
                 <Card card={card} key={card.gameCardId} index={index} player="ENEMY" />
               ))}
             </div>
+            <div className="Enemy__area">
+              <div className="Enemy__main">
+                <div className="Enemy__mainRunes">
+                  <CardRunes player="ENEMY" />
+                </div>
+                <div className="Enemy__stats">
+                  <CardShield player="ENEMY" />
 
-            <p>Enemy Health: {state.enemy.health} / 100</p>
-            <div className="Player__mana">
+                  <div className="Enemy__statsAttunement">
+                    <img src={exampleAttunement} alt="" />
+                    <div className="Enemy__statsHealth">
+                      <HeartIcon weight="fill" size={32} />
+                      {state.enemy.health} / 100
+                    </div>
+                  </div>
+                  <div className="Enemy__statsWeapon">
+                    <SwordIcon weight="bold" size={64} />
+                  </div>
+                </div>
+              </div>
+              <div className="Enemy__field">
+                {state.enemy.field
+                  .filter(({ id }) => CARD_LIBRARY[id].type === "CREATURE")
+                  .map((card) => (
+                    <Card card={card} isActive key={card.gameCardId} player="ENEMY" />
+                  ))}
+              </div>
+            </div>
+            <div className="Enemy__mana">
               <ManaSection player="ENEMY" />
             </div>
           </div>
+
           <div className="Game__board--player">
             <div className="Player__mana">
               <ManaSection player="PLAYER" />
@@ -201,7 +228,7 @@ export const GamePage = () => {
                 {state.player.field
                   .filter(({ id }) => CARD_LIBRARY[id].type === "CREATURE")
                   .map((card) => (
-                    <Card card={card} isActive key={card.gameCardId} />
+                    <Card card={card} isActive key={card.gameCardId} player="PLAYER" />
                   ))}
               </div>
               <div className="Player__main">

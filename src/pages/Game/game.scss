@@ -70,7 +70,7 @@
         align-content: end;
         background-color: #6a4c20;
 
-        &Shield,
+        .Shield,
         &Weapon {
           border: 5px solid #d5b864;
           background-color: #7f6a2b;
@@ -86,7 +86,7 @@
           align-items: center;
         }
 
-        &Shield {
+        .Shield {
           margin-left: auto;
         }
 
@@ -144,6 +144,23 @@
     }
 
     .Enemy {
+      &__area {
+        grid-template-rows: 160px 1fr;
+      }
+      &__stats {
+        .Shield,
+        &Weapon {
+          margin-bottom: auto;
+          margin-top: 0;
+        }
+        &Health {
+          top: unset;
+          bottom: -40px;
+        }
+        &Attunement {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 }

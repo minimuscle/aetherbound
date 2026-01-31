@@ -1,6 +1,6 @@
 .Card {
   width: 90%;
-  height: 60px;
+  height: 200px;
   background-color: #ff9494;
   cursor: pointer;
   text-align: start;
@@ -9,6 +9,12 @@
   display: flex;
   justify-content: space-between;
   position: relative;
+
+  &--hidden {
+    background-color: #5b0404;
+    border: 1px solid black;
+    cursor: unset;
+  }
 
   p {
     margin: unset;
@@ -21,7 +27,7 @@
   }
 
   &:not(:first-child) {
-    margin-top: -30px;
+    margin-top: -170px;
   }
 
   &--active {
@@ -147,8 +153,6 @@
   border-radius: 100%;
   height: 75px;
   width: 75px;
-  margin-top: auto;
-  margin-bottom: 65px;
 
   display: flex;
   justify-content: center;

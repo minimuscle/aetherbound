@@ -25,9 +25,7 @@ export const Card: Card = ({ card, isActive, player }) => {
   const cardData = CARD_LIBRARY[id];
   const { dispatch } = use(GameContext)!;
 
-  console.log(import.meta.env.VITE_DEBUG);
   /***** RENDER *****/
-  if (player === "ENEMY" && !import.meta.env.VITE_DEBUG) return <div className="Card--hidden" />;
   return (
     <CardTooltip card={card}>
       {isActive ? (
@@ -39,6 +37,8 @@ export const Card: Card = ({ card, isActive, player }) => {
             </p>
           )}
         </div>
+      ) : player === "ENEMY" && import.meta.env.VITE_DEBUG === "false" ? (
+        <div className="Card Card--hidden" />
       ) : (
         <button onClick={() => dispatch({ phase: "PLAY_CARD", card: gameCardId })} className="Card">
           <p>{cardData.name}</p>
