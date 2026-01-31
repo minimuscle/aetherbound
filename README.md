@@ -16,14 +16,47 @@ This project explores a clean separation between **game logic**, **effect resolu
 
 ## 🕹️ Current State
 
-- Playable 🚫
-- Enemy AI 🚫
-    - Level 0 🚫
-    - Level 1 🚫
-    - Level 2 🚫
-    - Level 3 🚫
-    - Level 4 🚫
-    - Level 5 🚫
-- Singleplayer 🚫
-- Multiplayer 🚫
-- Graphics 🚫
+Overall here is the state of the core concepts of the game and if its *usable* not if it works well or doesn't have bugs.
+
+- Playable ✅
+- Enemy AI ⚠️
+    - Level 0 ✅
+    - Level 1 ❌
+    - Level 2 ❌
+    - Level 3 ❌
+    - Level 4 ❌
+    - Level 5 ❌
+- Singleplayer ✅
+- Multiplayer ❌
+- Graphics ❌
+
+As for specific mechanics, here are some other pending stats, this is more of a roadmap, and if completed, show progress in the game. I've *very roughly* put them in order of completion:
+
+- Coin Toss ✅
+- Start Game ✅
+- Draw Cards ✅
+- Play Cards ⚠️
+    - Play Runes ✅
+    - Play Creatures ✅
+    - Play Sheilds ❌
+    - Play Weaponds ❌
+    - Play Permanents ❌
+    - Play Spells ❌
+ - End Turn ✅
+ - Generate Mana ✅
+ - Basic Card Effects ✅
+ - Advanced Card Effects ❌
+ - Enemy AI Turn ✅
+ - Restart Game ✅
+ - End Game Screen ✅
+ - Max Hand Size ❌
+ - Deck Builder ❌
+ - Card Store (Purchase / Sell Cards) ❌
+ - Attunement Selection ❌
+ - Starter Decks ❌
+ - Accounts ❌
+ - Save Ability ❌
+ - Autosave Ability ❌
+ - Online System ❌
+ - Multiplayer ❌
+ - VS Game ❌
