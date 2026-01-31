@@ -8,10 +8,9 @@ export const DEATH_CARDS = {
     name: "Death Rune",
     description: "At the start of your turn, generate 1 Death.",
     cost: 0,
-    effect: "GENERATE",
-    mana: {
-      amount: 1,
-      element: "DEATH",
+    price: 10,
+    triggers: {
+      onTurnEnd: [{ id: "mana.generate", args: { element: "DEATH", amount: 1 } }],
     },
   },
 

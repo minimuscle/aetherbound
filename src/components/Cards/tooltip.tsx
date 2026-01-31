@@ -41,7 +41,7 @@ export const CardTooltip: CardTooltip = ({ children, card }) => {
           {cardData.type === "CREATURE" && <p>Health: {cardData.health}</p>}
           {cardData.type === "RUNE" && (
             <p>
-              Generates: {cardData.mana.amount} {cardData.mana.element}
+              Generates: {cardData.triggers.onTurnEnd[0].args.amount} {cardData.triggers.onTurnEnd[0].args.element}
             </p>
           )}
         </>

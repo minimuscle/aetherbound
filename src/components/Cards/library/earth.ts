@@ -8,10 +8,9 @@ export const EARTH_CARDS = {
     name: "Earth Rune",
     description: "At the start of your turn, generate 1 Earth.",
     cost: 0,
-    effect: "GENERATE",
-    mana: {
-      amount: 1,
-      element: "EARTH",
+    price: 10,
+    triggers: {
+      onTurnEnd: [{ id: "mana.generate", args: { element: "EARTH", amount: 1 } }],
     },
   },
 

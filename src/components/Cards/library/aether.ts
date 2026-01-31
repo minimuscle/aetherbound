@@ -8,10 +8,9 @@ export const AETHER_CARDS = {
     name: "Aether Rune",
     description: "At the start of your turn, generate 1 Aether.",
     cost: 0,
-    effect: "GENERATE",
-    mana: {
-      amount: 1,
-      element: "AETHER",
+    price: 10,
+    triggers: {
+      onTurnEnd: [{ id: "mana.generate", args: { element: "AETHER", amount: 1 } }],
     },
   },
 

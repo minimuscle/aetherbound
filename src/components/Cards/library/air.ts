@@ -8,10 +8,9 @@ export const AIR_CARDS = {
     name: "Air Rune",
     description: "At the start of your turn, generate 1 Air.",
     cost: 0,
-    effect: "GENERATE",
-    mana: {
-      amount: 1,
-      element: "AIR",
+    price: 10,
+    triggers: {
+      onTurnEnd: [{ id: "mana.generate", args: { element: "AIR", amount: 1 } }],
     },
   },
 

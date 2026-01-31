@@ -8,10 +8,9 @@ export const VOID_CARDS = {
     name: "Void Rune",
     description: "At the start of your turn, generate 1 Void.",
     cost: 0,
-    effect: "GENERATE",
-    mana: {
-      amount: 1,
-      element: "VOID",
+    price: 10,
+    triggers: {
+      onTurnEnd: [{ id: "mana.generate", args: { element: "VOID", amount: 1 } }],
     },
   },
 

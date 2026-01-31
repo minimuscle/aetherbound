@@ -8,10 +8,9 @@ export const LIGHT_CARDS = {
     name: "Light Rune",
     description: "At the start of your turn, generate 1 Light.",
     cost: 0,
-    effect: "GENERATE",
-    mana: {
-      amount: 1,
-      element: "LIGHT",
+    price: 10,
+    triggers: {
+      onTurnEnd: [{ id: "mana.generate", args: { element: "LIGHT", amount: 1 } }],
     },
   },
 

@@ -8,10 +8,9 @@ export const WATER_CARDS = {
     name: "Water Rune",
     description: "At the start of your turn, generate 1 Water.",
     cost: 0,
-    effect: "GENERATE",
-    mana: {
-      amount: 1,
-      element: "WATER",
+    price: 10,
+    triggers: {
+      onTurnEnd: [{ id: "mana.generate", args: { element: "WATER", amount: 1 } }],
     },
   },
 

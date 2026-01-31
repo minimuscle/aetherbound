@@ -8,10 +8,9 @@ export const DARK_CARDS = {
     name: "Dark Rune",
     description: "At the start of your turn, generate 1 Dark.",
     cost: 0,
-    effect: "GENERATE",
-    mana: {
-      amount: 1,
-      element: "DARK",
+    price: 10,
+    triggers: {
+      onTurnEnd: [{ id: "mana.generate", args: { element: "DARK", amount: 1 } }],
     },
   },
 

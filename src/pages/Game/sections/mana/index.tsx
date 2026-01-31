@@ -40,7 +40,7 @@ export const ManaSection: ManaSection = ({ player }) => {
   return (
     <div className="Mana">
       {Object.entries(mana).map(([name, amount]) => (
-        <div className="Mana__item">
+        <div className="Mana__item" key={name}>
           <div className="Mana__itemIcon">{Icons[name as Element]}</div>
           <p className="Mana__itemText">{amount}</p>
         </div>

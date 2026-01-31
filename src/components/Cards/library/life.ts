@@ -8,10 +8,9 @@ export const LIFE_CARDS = {
     name: "Life Rune",
     description: "At the start of your turn, generate 1 Life.",
     cost: 0,
-    effect: "GENERATE",
-    mana: {
-      amount: 1,
-      element: "LIFE",
+    price: 10,
+    triggers: {
+      onTurnEnd: [{ id: "mana.generate", args: { element: "LIFE", amount: 1 } }],
     },
   },
 
