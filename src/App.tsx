@@ -1,4 +1,3 @@
-import { SpeakerHighIcon, SpeakerSlashIcon } from "@phosphor-icons/react";
 import { extend } from "@pixi/react";
 import { Container, Text } from "pixi.js";
 import { useState } from "react";
@@ -25,7 +24,7 @@ export const App = () => {
   return (
     <GlobalContext value={{ playMusic, activePage, setActivePage }}>
       <div className="MainContainer">
-        <button
+        {/* <button
           className="MainContainer__audio"
           onClick={() => setPlay(!playMusic)}
         >
@@ -34,7 +33,7 @@ export const App = () => {
           ) : (
             <SpeakerSlashIcon size={32} />
           )}
-        </button>
+        </button> */}
         {RenderPage[activePage]}
       </div>
     </GlobalContext>

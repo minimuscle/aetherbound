@@ -1,6 +1,7 @@
 import { endTurn } from "pages/Game/phases/endTurn";
 import { playCard } from "pages/Game/phases/playCard";
 import { playerTurn } from "pages/Game/phases/playerTurn";
+import { restartGame } from "pages/Game/phases/restartGame";
 import { startGame } from "pages/Game/phases/startGame";
 import type { Phases, State } from "../../../utils/types/game";
 
@@ -23,6 +24,8 @@ export const phases: Phases = (state, action): State => {
         activePlayer: "PLAYER",
         nextPhase: "TURN_START",
       };
+    case "RESTART_GAME":
+      return restartGame();
     default:
       return state;
   }

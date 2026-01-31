@@ -1,11 +1,12 @@
 import { HeartIcon, SwordIcon } from "@phosphor-icons/react";
 import { CardShield } from "components/Cards/variantDesigns/shield";
+import { GameOver } from "pages/Game/components/gameOver";
 import { useEffect, useReducer, useRef } from "react";
 import exampleAttunement from "../../assets/images/exampleAttunement.webp";
 import { Button } from "../../components/Button";
 import { Card } from "../../components/Cards";
 import { CARD_LIBRARY } from "../../components/Cards/library";
-import type { CardNames, Element } from "../../components/Cards/types";
+import type { CardNames } from "../../components/Cards/types";
 import { CardPermanents } from "../../components/Cards/variantDesigns/permanents";
 import { CardRunes } from "../../components/Cards/variantDesigns/runes";
 import { CoinToss } from "./components/coin";
@@ -83,7 +84,7 @@ export const GamePage = () => {
       field: [],
       health: 100,
       healthMax: 100,
-      attunement: "FIRE" as unknown as Element,
+      attunement: "FIRE",
       mana: {
         FIRE: 0,
         WATER: 0,
@@ -103,7 +104,7 @@ export const GamePage = () => {
       field: [],
       health: 100,
       healthMax: 100,
-      attunement: "FIRE" as unknown as Element,
+      attunement: "FIRE",
       mana: {
         FIRE: 0,
         WATER: 0,
@@ -170,6 +171,7 @@ export const GamePage = () => {
   /***** RENDER *****/
   return (
     <GameContext value={{ state, dispatch }}>
+      {state.nextPhase === "GAME_OVER" && <GameOver />}
       <div className="Game">
         {state.showCoinToss && (
           <CoinToss
