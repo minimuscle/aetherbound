@@ -22,7 +22,6 @@ export const FIRE_CARDS = {
     name: "Red Dragon",
     description: "An ancient apex predator of living flame.",
     cost: 10,
-    effect: "ATTACK",
     damage: 12,
     health: 10,
   },
@@ -32,9 +31,12 @@ export const FIRE_CARDS = {
     name: "Ember",
     description: "A wisp of flame",
     cost: 1,
-    effect: "ATTACK",
+    price: 50,
     damage: 1,
     health: 1,
+    triggers: {
+      onTurnEnd: [{ id: "stats.modify", args: { stat: "damage", amount: 1 } }],
+    },
   },
   BASE_FIRE_CREATURE_PHOENIX: {
     element: "FIRE",

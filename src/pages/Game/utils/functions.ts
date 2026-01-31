@@ -1,4 +1,7 @@
-import type { CardNames, GameCard, GameCardId } from "components/Cards/types";
+import { EFFECTS } from "components/Cards/effects";
+import { CARD_LIBRARY } from "components/Cards/library";
+import type { CardNames, CardTrigger, EffectRef, GameCard, GameCardId } from "components/Cards/types";
+import type { Player, State } from "utils/types/game";
 
 export function shuffle(arr: CardNames[]) {
   const copy = [...arr];
@@ -24,3 +27,33 @@ export function drawCard(deck: GameCard[], numberOfCards = 1) {
 }
 
 export const generateRandomPlayer = () => (Math.random() < 0.5 ? "PLAYER" : "ENEMY");
+
+export const getCardInstance = (state: State, owner: Player, gameCardId: GameCardId): GameCard | undefined => {
+  const side = owner === "PLAYER" ? state.player : state.enemy;
+  return side.field.find((card) => card.gameCardId === gameCardId);
+};
+
+const runEffect = (state: State, ctx: { owner: Player; gameCardId: GameCardId }, eff: EffectRef): State => {
+  const [group, name] = eff.id.split(".") as [keyof typeof EFFECTS, string];
+
+  const runner = EFFECTS[group]?.[name]?.run as ((ctx: unknown, args: unknown) => State) | undefined;
+
+  if (!runner) {
+    console.warn(`Unknown effect id: ${eff.id}`);
+    return state;
+  }
+
+  return runner({ state, ...ctx }, eff.args);
+};
+
+export const runCardTrigger = (state: State, owner: Player, gameCardId: GameCardId, trigger: CardTrigger): State => {
+  const sideKey = owner === "PLAYER" ? "player" : "enemy";
+  const card = state[sideKey].field.find((c) => c.gameCardId === gameCardId);
+  if (!card) return state;
+
+  const def = CARD_LIBRARY[card.id];
+  const effects = def.triggers?.[trigger] ?? [];
+  if (effects.length === 0) return state;
+
+  return effects.reduce((next, eff) => runEffect(next, { owner, gameCardId }, eff), state);
+};

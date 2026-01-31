@@ -19,7 +19,7 @@ type Card = React.FC<{
  *   COMPONENT START
  **********************************************************************************************************/
 export const Card: Card = ({ card, isActive }) => {
-  const { gameCardId, id } = card;
+  const { gameCardId, id, damage, health } = card;
   const cardData = CARD_LIBRARY[id];
   const { dispatch } = use(GameContext)!;
 
@@ -31,7 +31,7 @@ export const Card: Card = ({ card, isActive }) => {
           <p className="Card--active__name">{cardData.name}</p>
           {cardData.type === "CREATURE" && (
             <p className="Card--active__stats">
-              {cardData.damage} / {cardData.health}
+              {damage ?? cardData.health} / {health ?? cardData.health}
             </p>
           )}
         </div>
