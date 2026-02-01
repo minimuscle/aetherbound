@@ -1,43 +1,7 @@
-import type { CardNames } from "components/Cards/types";
+import { enemyStarterTestDeck } from "components/Cards/starterDecks/enemyDeck";
+import { playerStarterTestDeck } from "components/Cards/starterDecks/playerDeck";
 import { generateRandomPlayer, shuffle } from "pages/Game/utils/functions";
 import type { State } from "utils/types/game";
-
-const starterDeck: CardNames[] = [
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
-  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
-  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
-  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
-  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
-  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
-  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-  "BASE_FIRE_PERMANENT_RUNE",
-];
 
 export const restartGame = (): State => {
   return {
@@ -45,7 +9,7 @@ export const restartGame = (): State => {
     gameStarted: false,
     showCoinToss: true,
     player: {
-      deck: shuffle(starterDeck),
+      deck: shuffle(playerStarterTestDeck),
       hand: [],
       field: [],
       health: 100,
@@ -65,7 +29,7 @@ export const restartGame = (): State => {
       },
     },
     enemy: {
-      deck: shuffle(starterDeck),
+      deck: shuffle(enemyStarterTestDeck),
       hand: [],
       field: [],
       health: 100,
