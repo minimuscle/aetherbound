@@ -1,6 +1,6 @@
 import { EFFECTS } from "components/Cards/effects";
 import { CARD_LIBRARY } from "components/Cards/library";
-import type { CardNames, CardTrigger, EffectRef, GameCard, GameCardId } from "components/Cards/types";
+import type { CardNames, CardTrigger, EffectRef, GameCard, GameCardId, TriggeredEffects } from "components/Cards/types";
 import type { Player, State } from "utils/types/game";
 
 export function shuffle(arr: CardNames[]) {
@@ -15,7 +15,7 @@ export function shuffle(arr: CardNames[]) {
   // Convert to instances AFTER shuffle
   return copy.map((id, gameCardId) => ({
     id,
-    gameCardId: gameCardId as unknown as GameCardId,
+    gameCardId: (gameCardId + 1) as unknown as GameCardId,
   }));
 }
 
@@ -56,4 +56,12 @@ export const runCardTrigger = (state: State, owner: Player, gameCardId: GameCard
   if (effects.length === 0) return state;
 
   return effects.reduce((next, eff) => runEffect(next, { owner, gameCardId }, eff), state);
+};
+
+export const checkIsActiable = (triggers: TriggeredEffects, state: State) => {
+  if (!("onActivated" in triggers) || !("args" in triggers.onActivated?.[0])) return false;
+  if (!("cost" in triggers.onActivated[0].args)) return true;
+
+  const activePlayer = state.activePlayer === "PLAYER" ? state.player : state.enemy;
+  return activePlayer.mana[triggers.onActivated[0].args.cost?.element] >= triggers.onActivated[0].args.cost?.amount;
 };

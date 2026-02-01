@@ -31,12 +31,27 @@ export const FIRE_CARDS = {
     type: "CREATURE",
     name: "Ember",
     description: "A wisp of flame",
-    cost: 1,
+    cost: 2,
     price: 50,
     damage: 1,
     health: 1,
+    activations: 1,
     triggers: {
-      onTurnEnd: [{ id: "stats.modify", args: { stat: "damage", amount: 1 } }],
+      onActivated: [
+        {
+          id: "stats.modify",
+          args: {
+            stats: [
+              { stat: "damage", amount: 1 },
+              { stat: "health", amount: 1 },
+            ],
+            cost: {
+              element: "FIRE",
+              amount: 2,
+            },
+          },
+        },
+      ],
     },
   },
   BASE_FIRE_CREATURE_PHOENIX: {
@@ -54,18 +69,17 @@ export const FIRE_CARDS = {
   /***** SPELLS - 5 *****/
 
   /***** SHIELD - 1 *****/
-  // BASE_FIRE_SHIELD_HEAT_SHIELD: {
-  //   element: "FIRE",
-  //   type: "SHIELD",
-  //   name: "Heat Shield",
-  //   description: "Reduces enemies attacks by 1",
-  //   cost: 5,
-  //   effect: "PROTECT",
-  //   shield_effect: {
-  //     type: "DAMAGE_REDUCTION",
-  //     amount: 1,
-  //   },
-  // },
+  BASE_FIRE_SHIELD_HEAT_SHIELD: {
+    element: "FIRE",
+    type: "SHIELD",
+    name: "Heat Shield",
+    description: "Reduces enemies attacks by 1",
+    cost: 5,
+    price: 60,
+    triggers: {} /**hkjgjhgjh
+    kjhjhkjhk
+    jhg */,
+  },
 
   /***** WEAPON - 1 *****/
   // BASE_FIRE_WEAPON_FLAMING_SWORD: {

@@ -25,12 +25,13 @@ const starterDeck: CardNames[] = [
   "BASE_FIRE_CREATURE_EMBER",
   "BASE_FIRE_CREATURE_EMBER",
   "BASE_FIRE_CREATURE_EMBER",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
-  "BASE_FIRE_CREATURE_RED_DRAGON",
+  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
+  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
+  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
+  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
+  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
+  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
+  "BASE_FIRE_CREATURE_RUBY_ELEMENTAL",
   // "BASE_FIRE_PERMANENT_RUNE",
 
   "BASE_FIRE_PERMANENT_RUNE",
@@ -101,7 +102,7 @@ export const GamePage = () => {
       healthMax: 100,
       attunement: "FIRE",
       mana: {
-        FIRE: 9,
+        FIRE: 0,
         WATER: 0,
         EARTH: 0,
         AIR: 0,
@@ -119,15 +120,11 @@ export const GamePage = () => {
   });
   const phaseKeyRef = useRef("");
 
-  console.log("nextPhase", state.nextPhase, state);
-
   useEffect(() => {
     if (!state.gameStarted) return;
-    console.log("gameStarted", state.gameStarted);
     if (state.nextPhase !== "TURN_START") return;
 
     const key = `${state.turn}-${state.activePlayer}`;
-    console.log("key", key, phaseKeyRef.current);
     if (phaseKeyRef.current === key) return;
     phaseKeyRef.current = key;
 
@@ -138,12 +135,6 @@ export const GamePage = () => {
 
     if (state.activePlayer === "ENEMY") {
       enemyTurn(state, dispatch);
-    }
-  }, [state]);
-
-  useEffect(() => {
-    if (state.nextPhase === "GAME_OVER") {
-      console.log("Game Over", state);
     }
   }, [state]);
 

@@ -1,32 +1,69 @@
 import { CARD_LIBRARY } from "components/Cards/library";
-import type { GameCardId } from "components/Cards/types";
+import type { Element, GameCardId } from "components/Cards/types";
 import type { Player, State } from "utils/types/game";
 
+/**********************************************************************************************************
+ *   TYPE DEFINITIONS
+ **********************************************************************************************************/
+type Stat = "damage" | "health";
+type ModifyArgs = {
+  stats: Array<{ stat: Stat; amount: number }>;
+  cost?: {
+    element: Element;
+    amount: number;
+  };
+};
+
+/**********************************************************************************************************
+ *   COMPONENT START
+ **********************************************************************************************************/
 export const modify = {
-  run: (ctx: { state: State; owner: Player; gameCardId: GameCardId }, args: { stat: "damage" | "health"; amount: number }) => {
-    const { state, owner, gameCardId } = ctx;
-    const { stat, amount } = args;
+  run: (context: { state: State; owner: Player; gameCardId: GameCardId }, args: ModifyArgs): State => {
+    const { state, owner, gameCardId } = context;
+    const { stats, cost } = args;
+    const currentOwner = owner === "PLAYER" ? "player" : "enemy";
+    const side = state[currentOwner];
 
-    const sideKey = owner === "PLAYER" ? "player" : "enemy";
-    const side = state[sideKey];
+    const card = side.field.find((card) => card.gameCardId === gameCardId);
+    if (state.activePlayer === "ENEMY" || !card) return state;
 
-    const field = side.field.map((card) => {
-      const cardData = CARD_LIBRARY[card.id];
-      if (card.gameCardId !== gameCardId || !cardData || cardData.type !== "CREATURE") return card;
-      const defaultValue = CARD_LIBRARY[card.id][stat] ?? 0;
+    const cardData = CARD_LIBRARY[card.id];
+    if ("activations" in cardData && card.activations === cardData.activations) return state;
 
-      const current = card[stat] ?? defaultValue; // damage/health might be undefined
-      return {
-        ...card,
-        [stat]: current + amount,
+    let nextMana = side.mana;
+
+    if (cost) {
+      const availableMana = nextMana[cost.element] ?? 0;
+      if (availableMana < cost.amount) return state;
+
+      nextMana = {
+        ...nextMana,
+        [cost.element]: availableMana - cost.amount,
       };
-    });
+    }
+
+    let nextCard = card;
+    const damageDelta = stats.find((entry) => entry.stat === "damage")?.amount ?? 0;
+    const healthDelta = stats.find((entry) => entry.stat === "health")?.amount ?? 0;
+    const nextDamage = "damage" in cardData ? (card.damage ?? cardData.damage) + damageDelta : card.damage;
+    const nextHealth = "health" in cardData ? (card.health ?? cardData.health) + healthDelta : card.health;
+    const nextActivations = (card.activations ?? 0) + 1;
+
+    if (nextDamage !== card.damage && nextHealth !== card.health) {
+      nextCard = {
+        ...card,
+        damage: nextDamage,
+        health: nextHealth,
+        activations: nextActivations,
+      };
+    }
 
     return {
       ...state,
-      [sideKey]: {
+      [currentOwner]: {
         ...side,
-        field,
+        field: [...side.field.filter((card) => card.gameCardId !== gameCardId), nextCard],
+        mana: nextMana,
       },
     };
   },

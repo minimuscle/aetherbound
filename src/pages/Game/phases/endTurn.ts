@@ -7,6 +7,8 @@ export const endTurn = (state: State): State => {
   const otherPlayer = state.activePlayer === "PLAYER" ? state.enemy : state.player;
 
   const fieldDamage = activePlayer.field.reduce((acc, card) => {
+    const cardData = CARD_LIBRARY[card.id];
+    if (!cardData.damage) return acc;
     const base = CARD_LIBRARY[card.id]?.damage ?? 0;
     const dmg = card.damage ?? base;
     return acc + dmg;
@@ -16,7 +18,6 @@ export const endTurn = (state: State): State => {
 
   let next: State = {
     ...state,
-    activePlayer: state.activePlayer === "PLAYER" ? "ENEMY" : "PLAYER",
     [state.activePlayer.toLowerCase() as "player" | "enemy"]: {
       ...activePlayer,
       mana: {
@@ -40,5 +41,15 @@ export const endTurn = (state: State): State => {
     next = runCardTrigger(next, owner, id, "onTurnEnd");
   }
 
-  return next;
+  //Reset Activations for the next turn
+  for (const gameCardId of fieldIds) {
+    if (next.player.field.find((card) => card.gameCardId === gameCardId)?.activations) {
+      next.player.field.find((card) => card.gameCardId === gameCardId)!.activations = 0;
+    }
+  }
+
+  return {
+    ...next,
+    activePlayer: state.activePlayer === "PLAYER" ? "ENEMY" : "PLAYER",
+  };
 };

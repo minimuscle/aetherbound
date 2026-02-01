@@ -28,6 +28,6 @@ export type Action = {
   card?: GameCardId;
 };
 
-export type Phase = "START_GAME" | "END_TURN" | "START_TURN" | "ENEMY_TURN" | "TURN_START" | "PLAY_CARD" | "GAME_OVER" | "RESTART_GAME";
+export type Phase = "START_GAME" | "END_TURN" | "START_TURN" | "ENEMY_TURN" | "TURN_START" | "PLAY_CARD" | "ACTIVATE_CARD" | "GAME_OVER" | "RESTART_GAME";
 
 export type Phases = (state: State, action: Action) => State;

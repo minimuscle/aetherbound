@@ -1,3 +1,4 @@
+import { activateCard } from "pages/Game/phases/activateCard";
 import { endTurn } from "pages/Game/phases/endTurn";
 import { playCard } from "pages/Game/phases/playCard";
 import { restartGame } from "pages/Game/phases/restartGame";
@@ -16,6 +17,8 @@ export const phases: Phases = (state, action): State => {
       return startTurn(state);
     case "PLAY_CARD":
       return playCard(state, action);
+    case "ACTIVATE_CARD":
+      return activateCard(state, action);
     case "END_TURN":
       return endTurn(state);
     case "RESTART_GAME":

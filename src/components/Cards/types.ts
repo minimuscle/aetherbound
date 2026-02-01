@@ -33,7 +33,7 @@ export type EffectRef = {
   [Id in EffectId]: EffectArgs<Id> extends never ? { id: Id } : { id: Id; args: EffectArgs<Id> };
 }[EffectId];
 
-type TriggeredEffects = Partial<Record<CardTrigger, EffectRef[]>>;
+export type TriggeredEffects = Partial<Record<CardTrigger, EffectRef[]>>;
 
 export type CardDefinition = {
   element: Element;
@@ -46,6 +46,7 @@ export type CardDefinition = {
   damage?: number;
   health?: number;
   target?: "CREATURE" | "PLAYER" | "ALIVE" | "PERMANENT";
+  activations?: number;
 };
 
 // & (
@@ -84,6 +85,7 @@ export type GameCard = {
   gameCardId: GameCardId;
   damage?: number;
   health?: number;
+  activations?: number;
 };
 
 export type CardNames = keyof typeof CARD_LIBRARY;

@@ -43,6 +43,11 @@
     justify-content: space-between;
     border-radius: 20px;
 
+    &--activatable {
+      cursor: pointer;
+      border: 3px solid #d5b864;
+    }
+
     p {
       margin: 0;
     }

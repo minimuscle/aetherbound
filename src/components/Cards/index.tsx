@@ -1,4 +1,6 @@
 import { FireSimpleIcon } from "@phosphor-icons/react";
+import classNames from "classnames";
+import { checkIsActiable } from "pages/Game/utils/functions";
 import { use } from "react";
 import type { Player } from "utils/types/game";
 import { GameContext } from "../../pages/Game/utils/context";
@@ -23,20 +25,27 @@ type Card = React.FC<{
 export const Card: Card = ({ card, isActive, player }) => {
   const { gameCardId, id, damage, health } = card;
   const cardData = CARD_LIBRARY[id];
-  const { dispatch } = use(GameContext)!;
+  const { state, dispatch } = use(GameContext)!;
+
+  const isActivatable = checkIsActiable(cardData.triggers, state);
 
   /***** RENDER *****/
   return (
     <CardTooltip card={card}>
       {isActive ? (
-        <div className="Card--active">
+        <button
+          onClick={() =>
+            state.activePlayer === "PLAYER" ? dispatch({ phase: "ACTIVATE_CARD", card: gameCardId }) : dispatch({ phase: "PLAY_CARD", card: gameCardId })
+          }
+          className={classNames("Card--active", { "Card--active--activatable": isActivatable })}
+        >
           <p className="Card--active__name">{cardData.name}</p>
           {cardData.type === "CREATURE" && (
             <p className="Card--active__stats">
-              {damage ?? cardData.health} / {health ?? cardData.health}
+              {damage ?? cardData.damage} / {health ?? cardData.health}
             </p>
           )}
-        </div>
+        </button>
       ) : player === "ENEMY" && import.meta.env.VITE_DEBUG === "false" ? (
         <div className="Card Card--hidden" />
       ) : (
