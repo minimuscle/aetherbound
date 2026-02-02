@@ -14,17 +14,27 @@ export const playCard = (state: State, action: Action): State => {
   const fieldNoExtraShield =
     cardData.type === "SHIELD" ? state[activePlayer].field.filter(({ id }) => CARD_LIBRARY[id].type !== "SHIELD") : state[activePlayer].field;
 
+  const nextHand = state[activePlayer].hand.filter((card) => card.gameCardId !== action.card);
+
+  const playedCard = state[activePlayer].hand.find((card) => card.gameCardId === action.card)!;
+  if ("activations" in cardData) {
+    playedCard.activations = cardData.activations;
+  }
+
+  const nextField = [...fieldNoExtraShield, playedCard];
+  const nextMana = {
+    ...state[activePlayer].mana,
+    [cardData.element]: state[activePlayer].mana[cardData.element] - cardData.cost,
+  };
+
   return {
     ...state,
     nextPhase: "END_TURN",
     [activePlayer]: {
       ...state[activePlayer],
-      hand: state[activePlayer].hand.filter((card) => card.gameCardId !== action.card),
-      field: [...fieldNoExtraShield, state[activePlayer].hand.find((card) => card.gameCardId === action.card)],
-      mana: {
-        ...state[activePlayer].mana,
-        [cardData.element]: state[activePlayer].mana[cardData.element] - cardData.cost,
-      },
+      hand: nextHand,
+      field: nextField,
+      mana: nextMana,
     },
   };
 };
