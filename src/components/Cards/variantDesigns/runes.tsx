@@ -55,6 +55,7 @@ export const CardRunes: CardRunes = ({ player }) => {
         return (
           <CardTooltip key={element} card={firstCard}>
             <div className={`Runes__rune rune__${element.toLowerCase()}`}>
+              {element}
               <div className="Runes__runeNumber">{cards.length}</div>
             </div>
           </CardTooltip>

@@ -1,6 +1,6 @@
 import { FireSimpleIcon } from "@phosphor-icons/react";
 import classNames from "classnames";
-import { checkIsActiable } from "pages/Game/utils/functions";
+import { checkIsActionable } from "pages/Game/utils/functions";
 import { use } from "react";
 import type { Player } from "utils/types/game";
 import { GameContext } from "../../pages/Game/utils/context";
@@ -27,7 +27,7 @@ export const Card: Card = ({ card, isActive, player }) => {
   const cardData = CARD_LIBRARY[id];
   const { state, dispatch } = use(GameContext)!;
 
-  const isActivatable = checkIsActiable(cardData.triggers, state);
+  const isActivatable = checkIsActionable(card, state) && player === "PLAYER";
 
   /***** RENDER *****/
   return (

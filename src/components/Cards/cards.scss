@@ -45,7 +45,8 @@
 
     &--activatable {
       cursor: pointer;
-      border: 3px solid #d5b864;
+      border: 3px solid #1db315;
+      box-shadow: 0 0 20px 10px #1db315;
     }
 
     p {
@@ -92,6 +93,9 @@
     width: 50px;
     border-radius: 100%;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &Number {
       position: absolute;
