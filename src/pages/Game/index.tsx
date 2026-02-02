@@ -207,7 +207,7 @@ export const GamePage = () => {
             </div>
             <div className="Player__cards">
               {state.player.hand.map((card, index) => (
-                <Card card={card} key={card.gameCardId} index={index} />
+                <Card card={card} key={card.gameCardId} index={index} player="PLAYER" />
               ))}
             </div>
           </div>

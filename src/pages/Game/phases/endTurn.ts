@@ -8,8 +8,8 @@ export const endTurn = (state: State): State => {
 
   const fieldDamage = activePlayer.field.reduce((acc, card) => {
     const cardData = CARD_LIBRARY[card.id];
-    if (!cardData.damage) return acc;
-    const base = CARD_LIBRARY[card.id]?.damage ?? 0;
+    if (!("damage" in cardData)) return acc;
+    const base = cardData.damage ?? 0;
     const dmg = card.damage ?? base;
     return acc + dmg;
   }, 0);

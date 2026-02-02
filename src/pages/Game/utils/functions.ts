@@ -3,22 +3,26 @@ import { CARD_LIBRARY } from "components/Cards/library";
 import type { CardNames, CardTrigger, EffectRef, GameCard, GameCardId } from "components/Cards/types";
 import type { Player, State } from "utils/types/game";
 
-export function shuffle(arr: CardNames[]) {
-  const copy = [...arr];
+/**
+ * Shuffles the deck and returns the shuffled deck
+ */
+export function shuffle(deck: CardNames[]) {
+  const nextDeck = [...deck];
 
   // Fisher–Yates shuffle
-  for (let index = copy.length - 1; index > 0; index--) {
+  for (let index = nextDeck.length - 1; index > 0; index--) {
     const j = Math.floor(Math.random() * (index + 1));
-    [copy[index], copy[j]] = [copy[j], copy[index]];
+    [nextDeck[index], nextDeck[j]] = [nextDeck[j], nextDeck[index]];
   }
-
-  // Convert to instances AFTER shuffle
-  return copy.map((id, gameCardId) => ({
+  return nextDeck.map((id, gameCardId) => ({
     id,
     gameCardId: (gameCardId + 1) as unknown as GameCardId,
   }));
 }
 
+/**
+ * Draws a card from the deck, defaults to 1
+ */
 export function drawCard(deck: GameCard[], numberOfCards = 1) {
   const cards = deck.slice(0, numberOfCards);
   const rest = deck.slice(numberOfCards);
@@ -26,12 +30,10 @@ export function drawCard(deck: GameCard[], numberOfCards = 1) {
   return { deck: rest, cards };
 }
 
+/**
+ * Generates a random player
+ */
 export const generateRandomPlayer = () => (Math.random() < 0.5 ? "PLAYER" : "ENEMY");
-
-export const getCardInstance = (state: State, owner: Player, gameCardId: GameCardId): GameCard | undefined => {
-  const side = owner === "PLAYER" ? state.player : state.enemy;
-  return side.field.find((card) => card.gameCardId === gameCardId);
-};
 
 const runEffect = (state: State, ctx: { owner: Player; gameCardId: GameCardId }, eff: EffectRef): State => {
   const [group, name] = eff.id.split(".") as [keyof typeof EFFECTS, string];
@@ -58,6 +60,9 @@ export const runCardTrigger = (state: State, owner: Player, gameCardId: GameCard
   return effects.reduce((next, eff) => runEffect(next, { owner, gameCardId }, eff), state);
 };
 
+/**
+ * Checks if a card is actionable by the player
+ */
 export const checkIsActionable = (card: GameCard, state: State) => {
   const cardData = CARD_LIBRARY[card.id];
   const triggers = cardData.triggers;
