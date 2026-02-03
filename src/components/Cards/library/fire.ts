@@ -76,9 +76,9 @@ export const FIRE_CARDS = {
     description: "Reduces enemies attacks by 1",
     cost: 5,
     price: 60,
-    triggers: {} /**hkjgjhgjh
-    kjhjhkjhk
-    jhg */,
+    triggers: {
+      //TODO: add trigger that reduces enemy attacks by 1 when this shield is equipped
+    },
   },
 
   /***** WEAPON - 1 *****/

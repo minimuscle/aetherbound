@@ -25,6 +25,7 @@ export const modify = {
     const side = state[currentOwner];
 
     const card = side.field.find((card) => card.gameCardId === gameCardId);
+    const cardIndex = side.field.findIndex((card) => card.gameCardId === gameCardId);
     if (state.activePlayer === "ENEMY" || !card) return state;
 
     const cardData = CARD_LIBRARY[card.id];
@@ -57,12 +58,14 @@ export const modify = {
         activations: nextActivations,
       };
     }
+    const nextField = [...side.field];
+    nextField[cardIndex] = nextCard;
 
     return {
       ...state,
       [currentOwner]: {
         ...side,
-        field: [...side.field.filter((card) => card.gameCardId !== gameCardId), nextCard],
+        field: nextField,
         mana: nextMana,
       },
     };
