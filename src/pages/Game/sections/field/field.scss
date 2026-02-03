@@ -1,2 +1,9 @@
-.FieldSecrion {
+.FieldSection {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-auto-rows: 110px;
+  gap: 12px;
+  justify-items: center;
+  align-items: center;
+  // grid-template-rows: repeat(6, 1fr);
 }

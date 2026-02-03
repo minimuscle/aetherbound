@@ -1,9 +1,10 @@
 import { Card } from "components/Cards";
 import { CARD_LIBRARY } from "components/Cards/library";
-import type { GameCard } from "components/Cards/types";
+import type { GameCardId } from "components/Cards/types";
 import { GameContext } from "pages/Game/utils/context";
-import { use } from "react";
+import { use, useRef } from "react";
 import type { Player } from "utils/types/game";
+import "./field.scss";
 
 /**********************************************************************************************************
  *   TYPE DEFINITIONS
@@ -22,21 +23,20 @@ const FIELD_DISPLAY_ORDER = [
   29, 27, 25, 26, 28
 ];
 
-const orderFieldCards = (cards: GameCard[]) => {
-  if (cards.length <= 1) return cards;
+const VISUAL_INDEX_BY_FIELD_INDEX = (() => {
+  const visualIndexByFieldIndex: number[] = [];
 
-  const ordered: GameCard[] = [];
-
-  for (const index of FIELD_DISPLAY_ORDER) {
-    if (index < cards.length) ordered.push(cards[index]);
+  for (let visualIndex = 0; visualIndex < FIELD_DISPLAY_ORDER.length; visualIndex++) {
+    visualIndexByFieldIndex[FIELD_DISPLAY_ORDER[visualIndex]] = visualIndex;
   }
 
-  if (cards.length > FIELD_DISPLAY_ORDER.length) {
-    ordered.push(...cards.slice(FIELD_DISPLAY_ORDER.length));
-  }
+  return visualIndexByFieldIndex;
+})();
 
-  return ordered;
-};
+const getGridPositionStyle = (visualIndex: number) => ({
+  gridRowStart: Math.floor(visualIndex / 5) + 1,
+  gridColumnStart: (visualIndex % 5) + 1,
+});
 
 /**********************************************************************************************************
  *   COMPONENT START
@@ -50,14 +50,41 @@ export const FieldSection: FieldSection = ({ player }) => {
   } = use(GameContext)!;
 
   const creatureCards = field.filter(({ id }) => CARD_LIBRARY[id].type === "CREATURE");
-  const orderedCards = orderFieldCards(creatureCards);
-  const className = player === "PLAYER" ? "Player__field" : "Enemy__field";
+  const fieldIndexByGameCardIdRef = useRef<Map<GameCardId, number>>(new Map());
+
+  const fieldIndexByGameCardId = fieldIndexByGameCardIdRef.current;
+  const liveGameCardIds = new Set<GameCardId>(creatureCards.map((c) => c.gameCardId));
+  for (const [gameCardId] of fieldIndexByGameCardId) {
+    if (!liveGameCardIds.has(gameCardId)) fieldIndexByGameCardId.delete(gameCardId);
+  }
+
+  const usedFieldIndexes = new Set(fieldIndexByGameCardId.values());
+  let nextExtraFieldIndex = FIELD_DISPLAY_ORDER.length;
+
+  const positionedCards = creatureCards
+    .map((card) => {
+      let fieldIndex = fieldIndexByGameCardId.get(card.gameCardId);
+      if (fieldIndex === undefined) {
+        fieldIndex = 0;
+        while (fieldIndex < FIELD_DISPLAY_ORDER.length && usedFieldIndexes.has(fieldIndex)) fieldIndex++;
+        if (fieldIndex >= FIELD_DISPLAY_ORDER.length) fieldIndex = nextExtraFieldIndex++;
+
+        fieldIndexByGameCardId.set(card.gameCardId, fieldIndex);
+        usedFieldIndexes.add(fieldIndex);
+      }
+
+      const visualIndex = VISUAL_INDEX_BY_FIELD_INDEX[fieldIndex] ?? fieldIndex;
+      return { card, visualIndex };
+    })
+    .sort((a, b) => a.visualIndex - b.visualIndex);
 
   /***** RENDER *****/
   return (
-    <div className={className}>
-      {orderedCards.map((card) => (
-        <Card card={card} isActive key={card.gameCardId} player={player} />
+    <div className="FieldSection">
+      {positionedCards.map(({ card, visualIndex }) => (
+        <div key={card.gameCardId} style={getGridPositionStyle(visualIndex)}>
+          <Card card={card} isActive player={player} />
+        </div>
       ))}
     </div>
   );

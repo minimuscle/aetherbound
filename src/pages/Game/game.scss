@@ -24,7 +24,7 @@
 
     .Player,
     .Enemy {
-      &__flux {
+      &__mana {
         // border: 1px solid #d5b864;
         align-content: end;
       }
@@ -41,9 +41,12 @@
       }
 
       &__field {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-auto-rows: 110px;
+        gap: 12px;
+        justify-items: center;
+        align-items: center;
         padding: 20px;
       }
 
@@ -162,8 +165,21 @@
         }
       }
 
-      &__flux {
+      &__mana {
         align-content: start;
+      }
+    }
+
+    .Field__slot {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &--empty {
+        visibility: hidden;
+        pointer-events: none;
       }
     }
   }
