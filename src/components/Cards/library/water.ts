@@ -10,7 +10,7 @@ export const WATER_CARDS = {
     cost: 0,
     price: 10,
     triggers: {
-      onTurnEnd: [{ id: "mana.generate", args: { element: "WATER", amount: 1 } }],
+      onTurnEnd: [{ id: "flux.generate", args: { element: "WATER", amount: 1 } }],
     },
   },
 

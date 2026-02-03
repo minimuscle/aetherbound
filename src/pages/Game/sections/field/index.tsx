@@ -12,7 +12,15 @@ type FieldSection = React.FC<{
   player: Player;
 }>;
 
-const FIELD_DISPLAY_ORDER = [4, 2, 0, 1, 3, 9, 7, 5, 6, 8];
+// prettier-ignore
+const FIELD_DISPLAY_ORDER = [
+  4, 2, 0, 1, 3,
+  9, 7, 5, 6, 8,
+  14, 12, 10, 11, 13,
+  19, 17, 15, 16, 18,
+  24, 22, 20, 21, 23,
+  29, 27, 25, 26, 28
+];
 
 const orderFieldCards = (cards: GameCard[]) => {
   if (cards.length <= 1) return cards;

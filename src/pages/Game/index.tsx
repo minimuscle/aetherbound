@@ -4,6 +4,7 @@ import { playerStarterTestDeck } from "components/Cards/starterDecks/playerDeck"
 import { CardShield } from "components/Cards/variantDesigns/shield";
 import { GameOver } from "pages/Game/components/gameOver";
 import { enemyTurn } from "pages/Game/phases/enemyTurn";
+import { FieldSection } from "pages/Game/sections/field";
 import { useEffect, useReducer, useRef } from "react";
 import exampleAttunement from "../../assets/images/exampleAttunement.webp";
 import { Button } from "../../components/Button";
@@ -14,7 +15,7 @@ import { CardRunes } from "../../components/Cards/variantDesigns/runes";
 import { CoinToss } from "./components/coin";
 import "./game.scss";
 import { phases } from "./phases";
-import { ManaSection } from "./sections/mana";
+import { FluxSection } from "./sections/flux";
 import { cardDraw } from "./utils/audio";
 import { GameContext } from "./utils/context";
 import { generateRandomPlayer, shuffle } from "./utils/functions";
@@ -25,17 +26,17 @@ export const GamePage = () => {
     activePlayer: generateRandomPlayer(),
     gameStarted: false,
     showCoinToss: true,
-    player: {
-      deck: shuffle(playerStarterTestDeck),
-      hand: [],
-      field: [],
-      health: 100,
-      healthMax: 100,
-      attunement: "FIRE",
-      mana: {
-        FIRE: 0,
-        WATER: 0,
-        EARTH: 0,
+	    player: {
+	      deck: shuffle(playerStarterTestDeck),
+	      hand: [],
+	      field: [],
+	      health: 100,
+	      healthMax: 100,
+	      attunement: "FIRE",
+	      flux: {
+	        FIRE: 0,
+	        WATER: 0,
+	        EARTH: 0,
         AIR: 0,
         LIGHT: 0,
         DARK: 0,
@@ -45,17 +46,17 @@ export const GamePage = () => {
         VOID: 0,
       },
     },
-    enemy: {
-      deck: shuffle(enemyStarterTestDeck),
-      hand: [],
-      field: [],
-      health: 100,
-      healthMax: 100,
-      attunement: "FIRE",
-      mana: {
-        FIRE: 0,
-        WATER: 0,
-        EARTH: 0,
+	    enemy: {
+	      deck: shuffle(enemyStarterTestDeck),
+	      hand: [],
+	      field: [],
+	      health: 100,
+	      healthMax: 100,
+	      attunement: "FIRE",
+	      flux: {
+	        FIRE: 0,
+	        WATER: 0,
+	        EARTH: 0,
         AIR: 0,
         LIGHT: 0,
         DARK: 0,
@@ -159,23 +160,17 @@ export const GamePage = () => {
                   ))}
               </div>
             </div>
-            <div className="Enemy__mana">
-              <ManaSection player="ENEMY" />
-            </div>
-          </div>
+	            <div className="Enemy__flux">
+	              <FluxSection player="ENEMY" />
+	            </div>
+	          </div>
 
-          <div className="Game__board--player">
-            <div className="Player__mana">
-              <ManaSection player="PLAYER" />
-            </div>
-            <div className="Player__area">
-              <div className="Player__field">
-                {state.player.field
-                  .filter(({ id }) => CARD_LIBRARY[id].type === "CREATURE")
-                  .map((card) => (
-                    <Card card={card} isActive key={card.gameCardId} player="PLAYER" />
-                  ))}
-              </div>
+	          <div className="Game__board--player">
+	            <div className="Player__flux">
+	              <FluxSection player="PLAYER" />
+	            </div>
+	            <div className="Player__area">
+	              <FieldSection player="PLAYER" />
               <div className="Player__main">
                 <div className="Player__mainRunes">
                   <CardRunes player="PLAYER" />

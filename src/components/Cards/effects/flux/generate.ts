@@ -13,9 +13,9 @@ export const generate = {
       ...state,
       [sideKey]: {
         ...side,
-        mana: {
-          ...side.mana,
-          [element]: side.mana[element] + amount,
+        flux: {
+          ...side.flux,
+          [element]: side.flux[element] + amount,
         },
       },
     };

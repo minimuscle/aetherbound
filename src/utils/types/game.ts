@@ -10,7 +10,7 @@ type GameInfo = {
   health: number;
   healthMax: number;
   attunement: Element;
-  mana: Record<Element, number>;
+  flux: Record<Element, number>;
 };
 
 export type State = {

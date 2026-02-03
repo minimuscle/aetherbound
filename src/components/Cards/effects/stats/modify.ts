@@ -31,15 +31,15 @@ export const modify = {
     const cardData = CARD_LIBRARY[card.id];
     if ("activations" in cardData && card.activations === cardData.activations) return state;
 
-    let nextMana = side.mana;
+    let nextFlux = side.flux;
 
     if (cost) {
-      const availableMana = nextMana[cost.element] ?? 0;
-      if (availableMana < cost.amount) return state;
+      const availableFlux = nextFlux[cost.element] ?? 0;
+      if (availableFlux < cost.amount) return state;
 
-      nextMana = {
-        ...nextMana,
-        [cost.element]: availableMana - cost.amount,
+      nextFlux = {
+        ...nextFlux,
+        [cost.element]: availableFlux - cost.amount,
       };
     }
 
@@ -66,7 +66,7 @@ export const modify = {
       [currentOwner]: {
         ...side,
         field: nextField,
-        mana: nextMana,
+        flux: nextFlux,
       },
     };
   },

@@ -43,7 +43,7 @@ As for specific mechanics, here are some other pending stats, this is more of a 
     - Play Permanents ❌
     - Play Spells ❌
  - End Turn ✅
- - Generate Mana ✅
+ - Generate Flux ✅
  - Basic Card Effects ✅
  - Advanced Card Effects ❌
  - Enemy AI Turn ✅

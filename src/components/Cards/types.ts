@@ -62,7 +62,7 @@ export type CardDefinition = {
 //     }
 //   | {
 //       type: "RUNE";
-//       mana: {
+//       flux: {
 //         amount: number;
 //         element: Element;
 //       };

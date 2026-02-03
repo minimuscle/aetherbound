@@ -10,7 +10,7 @@ export const EARTH_CARDS = {
     cost: 0,
     price: 10,
     triggers: {
-      onTurnEnd: [{ id: "mana.generate", args: { element: "EARTH", amount: 1 } }],
+      onTurnEnd: [{ id: "flux.generate", args: { element: "EARTH", amount: 1 } }],
     },
   },
 

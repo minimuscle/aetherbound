@@ -20,9 +20,9 @@ export const endTurn = (state: State): State => {
     ...state,
     [state.activePlayer.toLowerCase() as "player" | "enemy"]: {
       ...activePlayer,
-      mana: {
-        ...activePlayer.mana,
-        [activePlayer.attunement]: activePlayer.mana[activePlayer.attunement] + 1,
+      flux: {
+        ...activePlayer.flux,
+        [activePlayer.attunement]: activePlayer.flux[activePlayer.attunement] + 1,
       },
     },
     [state.activePlayer === "PLAYER" ? "enemy" : "player"]: {

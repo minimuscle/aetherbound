@@ -24,7 +24,7 @@
 
     .Player,
     .Enemy {
-      &__mana {
+      &__flux {
         // border: 1px solid #d5b864;
         align-content: end;
       }
@@ -162,7 +162,7 @@
         }
       }
 
-      &__mana {
+      &__flux {
         align-content: start;
       }
     }

@@ -3,23 +3,23 @@ import type { Element } from "components/Cards/types";
 import { GameContext } from "pages/Game/utils/context";
 import { use } from "react";
 import type { Player } from "utils/types/game";
-import "./mana.scss";
+import "./flux.scss";
 
 /**********************************************************************************************************
  *   TYPE DEFINITIONS
  **********************************************************************************************************/
-type ManaSection = React.FC<{
+type FluxSection = React.FC<{
   player: Player;
 }>;
 
 /**********************************************************************************************************
  *   COMPONENT START
  **********************************************************************************************************/
-export const ManaSection: ManaSection = ({ player }) => {
+export const FluxSection: FluxSection = ({ player }) => {
   /***** HOOKS *****/
   const {
     state: {
-      [player.toLowerCase() as "player" | "enemy"]: { mana },
+      [player.toLowerCase() as "player" | "enemy"]: { flux },
     },
   } = use(GameContext)!;
 
@@ -38,11 +38,11 @@ export const ManaSection: ManaSection = ({ player }) => {
 
   /***** RENDER *****/
   return (
-    <div className="Mana">
-      {Object.entries(mana).map(([name, amount]) => (
-        <div className="Mana__item" key={name}>
-          <div className="Mana__itemIcon">{Icons[name as Element]}</div>
-          <p className="Mana__itemText">{amount}</p>
+    <div className="Flux">
+      {Object.entries(flux).map(([name, amount]) => (
+        <div className="Flux__item" key={name}>
+          <div className="Flux__itemIcon">{Icons[name as Element]}</div>
+          <p className="Flux__itemText">{amount}</p>
         </div>
       ))}
     </div>

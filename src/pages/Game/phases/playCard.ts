@@ -7,7 +7,7 @@ export const playCard = (state: State, action: Action): State => {
   const cardData = selectedCard ? CARD_LIBRARY[selectedCard] : null;
 
   if (!cardData) return state;
-  if (cardData?.cost > state[activePlayer].mana[cardData.element]) {
+  if (cardData?.cost > state[activePlayer].flux[cardData.element]) {
     return state;
   }
 
@@ -22,9 +22,9 @@ export const playCard = (state: State, action: Action): State => {
   }
 
   const nextField = [...fieldNoExtraShield, playedCard];
-  const nextMana = {
-    ...state[activePlayer].mana,
-    [cardData.element]: state[activePlayer].mana[cardData.element] - cardData.cost,
+  const nextFlux = {
+    ...state[activePlayer].flux,
+    [cardData.element]: state[activePlayer].flux[cardData.element] - cardData.cost,
   };
 
   return {
@@ -34,7 +34,7 @@ export const playCard = (state: State, action: Action): State => {
       ...state[activePlayer],
       hand: nextHand,
       field: nextField,
-      mana: nextMana,
+      flux: nextFlux,
     },
   };
 };
