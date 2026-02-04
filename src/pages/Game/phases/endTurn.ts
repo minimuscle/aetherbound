@@ -1,6 +1,25 @@
 import { CARD_LIBRARY } from "components/Cards/library";
+import { damageTaken } from "pages/Game/utils/audio";
 import { runCardTrigger } from "pages/Game/utils/functions";
 import type { State } from "utils/types/game";
+
+const DAMAGE_SOUND_POOL_SIZE = 6;
+const damageTakenPool: HTMLAudioElement[] = Array.from({ length: DAMAGE_SOUND_POOL_SIZE }, () => {
+  const audio = damageTaken.cloneNode(true) as HTMLAudioElement;
+  audio.preload = "auto";
+  return audio;
+});
+let damageTakenPoolIndex = 0;
+const playDamageTaken = () => {
+  const audio = damageTakenPool[damageTakenPoolIndex];
+  damageTakenPoolIndex = (damageTakenPoolIndex + 1) % DAMAGE_SOUND_POOL_SIZE;
+  try {
+    audio.currentTime = 0;
+    void audio.play().catch(() => {});
+  } catch {
+    // Ignore if the browser blocks playback or the element isn't ready yet.
+  }
+};
 
 export const endTurn = (state: State): State => {
   const activePlayer = state.activePlayer === "PLAYER" ? state.player : state.enemy;
@@ -40,6 +59,27 @@ export const endTurn = (state: State): State => {
   for (const id of fieldIds) {
     next = runCardTrigger(next, owner, id, "onTurnEnd");
   }
+
+  //Run sound effects for all damage taken
+  const wait = (milliseconds: number) => new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
+  const playDamageSoundsSequentially = async () => {
+    const damageCount = activePlayer.field.reduce((count, card) => {
+      return count + ("damage" in CARD_LIBRARY[card.id] ? 1 : 0);
+    }, 0);
+    if (damageCount <= 0) return;
+
+    const plays = Math.min(damageCount, 12);
+    const minGapMs = 55;
+    const maxGapMs = 120;
+    const totalBudgetMs = 850;
+    const gapMs = Math.max(minGapMs, Math.min(maxGapMs, Math.floor(totalBudgetMs / plays)));
+
+    for (let i = 0; i < plays; i += 1) {
+      playDamageTaken();
+      if (i < plays - 1) await wait(gapMs);
+    }
+  };
+  playDamageSoundsSequentially();
 
   //Reset Activations for the next turn
   for (const gameCardId of fieldIds) {

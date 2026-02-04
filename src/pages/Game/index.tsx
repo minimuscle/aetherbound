@@ -26,17 +26,17 @@ export const GamePage = () => {
     activePlayer: generateRandomPlayer(),
     gameStarted: false,
     showCoinToss: true,
-	    player: {
-	      deck: shuffle(playerStarterTestDeck),
-	      hand: [],
-	      field: [],
-	      health: 100,
-	      healthMax: 100,
-	      attunement: "FIRE",
-	      flux: {
-	        FIRE: 0,
-	        WATER: 0,
-	        EARTH: 0,
+    player: {
+      deck: shuffle(playerStarterTestDeck),
+      hand: [],
+      field: [],
+      health: 100,
+      healthMax: 100,
+      attunement: "FIRE",
+      flux: {
+        FIRE: 0,
+        WATER: 0,
+        EARTH: 0,
         AIR: 0,
         LIGHT: 0,
         DARK: 0,
@@ -46,17 +46,17 @@ export const GamePage = () => {
         VOID: 0,
       },
     },
-	    enemy: {
-	      deck: shuffle(enemyStarterTestDeck),
-	      hand: [],
-	      field: [],
-	      health: 100,
-	      healthMax: 100,
-	      attunement: "FIRE",
-	      flux: {
-	        FIRE: 0,
-	        WATER: 0,
-	        EARTH: 0,
+    enemy: {
+      deck: shuffle(enemyStarterTestDeck),
+      hand: [],
+      field: [],
+      health: 100,
+      healthMax: 100,
+      attunement: "FIRE",
+      flux: {
+        FIRE: 0,
+        WATER: 0,
+        EARTH: 0,
         AIR: 0,
         LIGHT: 0,
         DARK: 0,
@@ -160,17 +160,17 @@ export const GamePage = () => {
                   ))}
               </div>
             </div>
-	            <div className="Enemy__flux">
-	              <FluxSection player="ENEMY" />
-	            </div>
-	          </div>
+            <div className="Enemy__flux">
+              <FluxSection player="ENEMY" />
+            </div>
+          </div>
 
-	          <div className="Game__board--player">
-	            <div className="Player__flux">
-	              <FluxSection player="PLAYER" />
-	            </div>
-	            <div className="Player__area">
-	              <FieldSection player="PLAYER" />
+          <div className="Game__board--player">
+            <div className="Player__flux">
+              <FluxSection player="PLAYER" />
+            </div>
+            <div className="Player__area">
+              <FieldSection player="PLAYER" />
               <div className="Player__main">
                 <div className="Player__mainRunes">
                   <CardRunes player="PLAYER" />
