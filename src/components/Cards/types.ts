@@ -5,7 +5,7 @@ import type { CARD_LIBRARY } from "./library";
 export type CardType = "CREATURE" | "SPELL" | "PERMANENT" | "WEAPON" | "SHIELD" | "RUNE";
 export type GameCardId = Tagged<"GameCardId", number>;
 
-export type CardTrigger = "onPlay" | "onTurnStart" | "onTurnEnd" | "onDeath" | "onActivated";
+export type CardTrigger = "onPlay" | "onTurnStart" | "onTurnEnd" | "onDeath" | "onActivated" | "onAttack";
 
 type DottedIds<T, Prefix extends string = ""> =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
