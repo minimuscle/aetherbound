@@ -6,6 +6,7 @@ import type { State } from "utils/types/game";
 const DAMAGE_SOUND_POOL_SIZE = 6;
 const damageTakenPool: HTMLAudioElement[] = Array.from({ length: DAMAGE_SOUND_POOL_SIZE }, () => {
   const audio = damageTaken.cloneNode(true) as HTMLAudioElement;
+  audio.volume = 0.2;
   audio.preload = "auto";
   return audio;
 });
