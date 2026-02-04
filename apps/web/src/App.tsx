@@ -1,13 +1,9 @@
-import { extend } from "@pixi/react";
-import { Container, Text } from "pixi.js";
 import { useState } from "react";
 import "./App.scss";
 import { GamePage } from "./pages/Game";
 import { MainPage } from "./pages/main";
 import { GlobalContext } from "./utils/context";
 import type { Page } from "./utils/types/game";
-
-extend({ Container, Text });
 
 export const App = () => {
   /***** HOOKS *****/
