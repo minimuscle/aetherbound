@@ -5,6 +5,6 @@ export const registerRoutes = {
     GET: () => new Response("Hello World"),
   },
   "/api/test_user": {
-    GET: () => testUser(),
+    GET: async () => await testUser(),
   },
 } satisfies Bun.Serve.Options<undefined>["routes"];
