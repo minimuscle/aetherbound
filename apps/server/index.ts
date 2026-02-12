@@ -1,7 +1,7 @@
-import { registerRoutes } from "./app/endpoints";
+import { routes } from "./app/routes";
 
 const server = Bun.serve({
-  routes: registerRoutes,
+  routes,
   fetch(req, server) {
     if (server.upgrade(req)) {
       return;
@@ -22,6 +22,5 @@ const server = Bun.serve({
     },
   },
 });
-console.log(process.env.DATABASE_URL);
 
 console.log(`Listening on http://localhost:${server.port}/`);
